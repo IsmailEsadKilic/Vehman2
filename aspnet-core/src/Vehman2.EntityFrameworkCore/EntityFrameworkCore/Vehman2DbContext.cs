@@ -1,3 +1,5 @@
+using Vehman2.Vehicles;
+using Vehman2.Companies;
 using Vehman2.Brands;
 using Vehman2.CarModels;
 using Vehman2.Owners;
@@ -33,6 +35,8 @@ public class Vehman2DbContext :
     IIdentityProDbContext,
     ISaasDbContext
 {
+    public DbSet<Vehicle> Vehicles { get; set; }
+    public DbSet<Company> Companies { get; set; }
     public DbSet<Brand> Brands { get; set; }
     public DbSet<CarModel> CarModels { get; set; }
     public DbSet<Owner> Owners { get; set; }
@@ -113,11 +117,19 @@ public class Vehman2DbContext :
         }
         if (builder.IsHostDatabase())
         {
-            builder.Entity<Owner>(b =>
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+            builder.Entity<Brand>(b =>
 {
-    b.ToTable(Vehman2Consts.DbTablePrefix + "Owners", Vehman2Consts.DbSchema);
+    b.ToTable(Vehman2Consts.DbTablePrefix + "Brands", Vehman2Consts.DbSchema);
     b.ConfigureByConvention();
-    b.Property(x => x.Name).HasColumnName(nameof(Owner.Name)).IsRequired();
+    b.Property(x => x.Name).HasColumnName(nameof(Brand.Name)).IsRequired();
 });
 
         }
@@ -128,16 +140,41 @@ public class Vehman2DbContext :
     b.ToTable(Vehman2Consts.DbTablePrefix + "CarModels", Vehman2Consts.DbSchema);
     b.ConfigureByConvention();
     b.Property(x => x.Name).HasColumnName(nameof(CarModel.Name)).IsRequired();
+    b.HasOne<Brand>().WithMany().IsRequired().HasForeignKey(x => x.BrandId).OnDelete(DeleteBehavior.NoAction);
 });
 
         }
         if (builder.IsHostDatabase())
         {
-            builder.Entity<Brand>(b =>
+            builder.Entity<Company>(b =>
 {
-    b.ToTable(Vehman2Consts.DbTablePrefix + "Brands", Vehman2Consts.DbSchema);
+    b.ToTable(Vehman2Consts.DbTablePrefix + "Companies", Vehman2Consts.DbSchema);
     b.ConfigureByConvention();
-    b.Property(x => x.Name).HasColumnName(nameof(Brand.Name)).IsRequired();
+    b.Property(x => x.Name).HasColumnName(nameof(Company.Name)).IsRequired();
+});
+
+        }
+        if (builder.IsHostDatabase())
+        {
+            builder.Entity<Owner>(b =>
+{
+    b.ToTable(Vehman2Consts.DbTablePrefix + "Owners", Vehman2Consts.DbSchema);
+    b.ConfigureByConvention();
+    b.Property(x => x.Name).HasColumnName(nameof(Owner.Name)).IsRequired();
+    b.HasOne<Company>().WithMany().IsRequired().HasForeignKey(x => x.CompanyId).OnDelete(DeleteBehavior.NoAction);
+});
+
+        }
+        if (builder.IsHostDatabase())
+        {
+            builder.Entity<Vehicle>(b =>
+{
+    b.ToTable(Vehman2Consts.DbTablePrefix + "Vehicles", Vehman2Consts.DbSchema);
+    b.ConfigureByConvention();
+    b.Property(x => x.Plate).HasColumnName(nameof(Vehicle.Plate)).IsRequired();
+    b.HasOne<CarModel>().WithMany().IsRequired().HasForeignKey(x => x.CarModelId).OnDelete(DeleteBehavior.NoAction);
+    b.HasOne<Fuel>().WithMany().IsRequired().HasForeignKey(x => x.FuelId).OnDelete(DeleteBehavior.NoAction);
+    b.HasOne<Owner>().WithMany().IsRequired().HasForeignKey(x => x.OwnerId).OnDelete(DeleteBehavior.NoAction);
 });
 
         }

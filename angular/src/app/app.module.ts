@@ -28,6 +28,8 @@ import { FUELS_FUEL_ROUTE_PROVIDER } from './fuels/fuel/providers/fuel-route.pro
 import { OWNERS_OWNER_ROUTE_PROVIDER } from './owners/owner/providers/owner-route.provider';
 import { CAR_MODELS_CAR_MODEL_ROUTE_PROVIDER } from './car-models/car-model/providers/car-model-route.provider';
 import { BRANDS_BRAND_ROUTE_PROVIDER } from './brands/brand/providers/brand-route.provider';
+import { COMPANIES_COMPANY_ROUTE_PROVIDER } from './companies/company/providers/company-route.provider';
+import { VEHICLES_VEHICLE_ROUTE_PROVIDER } from './vehicles/vehicle/providers/vehicle-route.provider';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -75,6 +77,8 @@ import { BRANDS_BRAND_ROUTE_PROVIDER } from './brands/brand/providers/brand-rout
     OWNERS_OWNER_ROUTE_PROVIDER,
     CAR_MODELS_CAR_MODEL_ROUTE_PROVIDER,
     BRANDS_BRAND_ROUTE_PROVIDER,
+    COMPANIES_COMPANY_ROUTE_PROVIDER,
+    VEHICLES_VEHICLE_ROUTE_PROVIDER,
   ],
   bootstrap: [AppComponent],
 })

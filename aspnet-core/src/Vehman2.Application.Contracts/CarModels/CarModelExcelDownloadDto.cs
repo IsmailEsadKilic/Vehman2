@@ -10,6 +10,7 @@ namespace Vehman2.CarModels
         public string? FilterText { get; set; }
 
         public string? Name { get; set; }
+        public Guid? BrandId { get; set; }
 
         public CarModelExcelDownloadDto()
         {

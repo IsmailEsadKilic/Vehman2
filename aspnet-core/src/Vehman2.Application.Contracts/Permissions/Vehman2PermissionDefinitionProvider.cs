@@ -36,6 +36,16 @@ public class Vehman2PermissionDefinitionProvider : PermissionDefinitionProvider
         brandPermission.AddChild(Vehman2Permissions.Brands.Create, L("Permission:Create"));
         brandPermission.AddChild(Vehman2Permissions.Brands.Edit, L("Permission:Edit"));
         brandPermission.AddChild(Vehman2Permissions.Brands.Delete, L("Permission:Delete"));
+
+        var companyPermission = myGroup.AddPermission(Vehman2Permissions.Companies.Default, L("Permission:Companies"));
+        companyPermission.AddChild(Vehman2Permissions.Companies.Create, L("Permission:Create"));
+        companyPermission.AddChild(Vehman2Permissions.Companies.Edit, L("Permission:Edit"));
+        companyPermission.AddChild(Vehman2Permissions.Companies.Delete, L("Permission:Delete"));
+
+        var vehiclePermission = myGroup.AddPermission(Vehman2Permissions.Vehicles.Default, L("Permission:Vehicles"));
+        vehiclePermission.AddChild(Vehman2Permissions.Vehicles.Create, L("Permission:Create"));
+        vehiclePermission.AddChild(Vehman2Permissions.Vehicles.Edit, L("Permission:Edit"));
+        vehiclePermission.AddChild(Vehman2Permissions.Vehicles.Delete, L("Permission:Delete"));
     }
 
     private static LocalizableString L(string name)

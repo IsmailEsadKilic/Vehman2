@@ -44,7 +44,23 @@
       "OrdinalIndex": 0
     }
   ],
-  "NavigationProperties": [],
+  "NavigationProperties": [
+    {
+      "EntityNameWithDuplicationNumber": "Brand",
+      "EntitySetNameWithDuplicationNumber": "Brands",
+      "ReferencePropertyName": "Brand",
+      "UiPickType": "Dropdown",
+      "IsRequired": true,
+      "Name": "BrandId",
+      "DisplayProperty": "Name",
+      "Namespace": "Vehman2.Brands",
+      "EntityName": "Brand",
+      "EntitySetName": "Brands",
+      "DtoNamespace": "Vehman2.Brands",
+      "DtoEntityName": "BrandDto",
+      "Type": "Guid"
+    }
+  ],
   "NavigationConnections": [],
   "PhysicalFileName": "CarModel.json"
 }

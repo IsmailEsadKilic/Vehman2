@@ -1,8 +1,8 @@
-import type { GetOwnersInput, OwnerCreateDto, OwnerDto, OwnerExcelDownloadDto, OwnerUpdateDto } from './models';
+import type { GetOwnersInput, OwnerCreateDto, OwnerDto, OwnerExcelDownloadDto, OwnerUpdateDto, OwnerWithNavigationPropertiesDto } from './models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { DownloadTokenResultDto } from '../shared/models';
+import type { DownloadTokenResultDto, LookupDto, LookupRequestDto } from '../shared/models';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +36,15 @@ export class OwnerService {
     { apiName: this.apiName,...config });
   
 
+  getCompanyLookup = (input: LookupRequestDto, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, PagedResultDto<LookupDto<string>>>({
+      method: 'GET',
+      url: '/api/app/owners/company-lookup',
+      params: { filter: input.filter, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName,...config });
+  
+
   getDownloadToken = (config?: Partial<Rest.Config>) =>
     this.restService.request<any, DownloadTokenResultDto>({
       method: 'GET',
@@ -45,10 +54,10 @@ export class OwnerService {
   
 
   getList = (input: GetOwnersInput, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, PagedResultDto<OwnerDto>>({
+    this.restService.request<any, PagedResultDto<OwnerWithNavigationPropertiesDto>>({
       method: 'GET',
       url: '/api/app/owners',
-      params: { filterText: input.filterText, name: input.name, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { filterText: input.filterText, name: input.name, companyId: input.companyId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName,...config });
   
@@ -59,6 +68,14 @@ export class OwnerService {
       responseType: 'blob',
       url: '/api/app/owners/as-excel-file',
       params: { downloadToken: input.downloadToken, filterText: input.filterText, name: input.name },
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getWithNavigationProperties = (id: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, OwnerWithNavigationPropertiesDto>({
+      method: 'GET',
+      url: `/api/app/owners/with-navigation-properties/${id}`,
     },
     { apiName: this.apiName,...config });
   

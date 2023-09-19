@@ -1,3 +1,4 @@
+using Vehman2.Shared;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -25,9 +26,16 @@ namespace Vehman2.Controllers.CarModels
         }
 
         [HttpGet]
-        public virtual Task<PagedResultDto<CarModelDto>> GetListAsync(GetCarModelsInput input)
+        public Task<PagedResultDto<CarModelWithNavigationPropertiesDto>> GetListAsync(GetCarModelsInput input)
         {
             return _carModelsAppService.GetListAsync(input);
+        }
+
+        [HttpGet]
+        [Route("with-navigation-properties/{id}")]
+        public Task<CarModelWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id)
+        {
+            return _carModelsAppService.GetWithNavigationPropertiesAsync(id);
         }
 
         [HttpGet]
@@ -35,6 +43,13 @@ namespace Vehman2.Controllers.CarModels
         public virtual Task<CarModelDto> GetAsync(Guid id)
         {
             return _carModelsAppService.GetAsync(id);
+        }
+
+        [HttpGet]
+        [Route("brand-lookup")]
+        public Task<PagedResultDto<LookupDto<Guid>>> GetBrandLookupAsync(LookupRequestDto input)
+        {
+            return _carModelsAppService.GetBrandLookupAsync(input);
         }
 
         [HttpPost]

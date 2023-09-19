@@ -20,13 +20,14 @@ namespace Vehman2.Owners
         }
 
         public async Task<Owner> CreateAsync(
-        string name)
+        Guid companyId, string name)
         {
+            Check.NotNull(companyId, nameof(companyId));
             Check.NotNullOrWhiteSpace(name, nameof(name));
 
             var owner = new Owner(
              GuidGenerator.Create(),
-             name
+             companyId, name
              );
 
             return await _ownerRepository.InsertAsync(owner);
@@ -34,13 +35,15 @@ namespace Vehman2.Owners
 
         public async Task<Owner> UpdateAsync(
             Guid id,
-            string name, [CanBeNull] string concurrencyStamp = null
+            Guid companyId, string name, [CanBeNull] string concurrencyStamp = null
         )
         {
+            Check.NotNull(companyId, nameof(companyId));
             Check.NotNullOrWhiteSpace(name, nameof(name));
 
             var owner = await _ownerRepository.GetAsync(id);
 
+            owner.CompanyId = companyId;
             owner.Name = name;
 
             owner.SetConcurrencyStampIfNotNull(concurrencyStamp);

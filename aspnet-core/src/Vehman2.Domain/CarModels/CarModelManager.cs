@@ -20,13 +20,14 @@ namespace Vehman2.CarModels
         }
 
         public async Task<CarModel> CreateAsync(
-        string name)
+        Guid brandId, string name)
         {
+            Check.NotNull(brandId, nameof(brandId));
             Check.NotNullOrWhiteSpace(name, nameof(name));
 
             var carModel = new CarModel(
              GuidGenerator.Create(),
-             name
+             brandId, name
              );
 
             return await _carModelRepository.InsertAsync(carModel);
@@ -34,13 +35,15 @@ namespace Vehman2.CarModels
 
         public async Task<CarModel> UpdateAsync(
             Guid id,
-            string name, [CanBeNull] string concurrencyStamp = null
+            Guid brandId, string name, [CanBeNull] string concurrencyStamp = null
         )
         {
+            Check.NotNull(brandId, nameof(brandId));
             Check.NotNullOrWhiteSpace(name, nameof(name));
 
             var carModel = await _carModelRepository.GetAsync(id);
 
+            carModel.BrandId = brandId;
             carModel.Name = name;
 
             carModel.SetConcurrencyStampIfNotNull(concurrencyStamp);

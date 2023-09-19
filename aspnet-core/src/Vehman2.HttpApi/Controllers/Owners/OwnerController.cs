@@ -1,3 +1,4 @@
+using Vehman2.Shared;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -25,9 +26,16 @@ namespace Vehman2.Controllers.Owners
         }
 
         [HttpGet]
-        public virtual Task<PagedResultDto<OwnerDto>> GetListAsync(GetOwnersInput input)
+        public Task<PagedResultDto<OwnerWithNavigationPropertiesDto>> GetListAsync(GetOwnersInput input)
         {
             return _ownersAppService.GetListAsync(input);
+        }
+
+        [HttpGet]
+        [Route("with-navigation-properties/{id}")]
+        public Task<OwnerWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id)
+        {
+            return _ownersAppService.GetWithNavigationPropertiesAsync(id);
         }
 
         [HttpGet]
@@ -35,6 +43,13 @@ namespace Vehman2.Controllers.Owners
         public virtual Task<OwnerDto> GetAsync(Guid id)
         {
             return _ownersAppService.GetAsync(id);
+        }
+
+        [HttpGet]
+        [Route("company-lookup")]
+        public Task<PagedResultDto<LookupDto<Guid>>> GetCompanyLookupAsync(LookupRequestDto input)
+        {
+            return _ownersAppService.GetCompanyLookupAsync(input);
         }
 
         [HttpPost]

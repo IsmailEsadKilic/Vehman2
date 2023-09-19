@@ -1,3 +1,4 @@
+using Vehman2.Shared;
 using System;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
@@ -9,9 +10,13 @@ namespace Vehman2.CarModels
 {
     public interface ICarModelsAppService : IApplicationService
     {
-        Task<PagedResultDto<CarModelDto>> GetListAsync(GetCarModelsInput input);
+        Task<PagedResultDto<CarModelWithNavigationPropertiesDto>> GetListAsync(GetCarModelsInput input);
+
+        Task<CarModelWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id);
 
         Task<CarModelDto> GetAsync(Guid id);
+
+        Task<PagedResultDto<LookupDto<Guid>>> GetBrandLookupAsync(LookupRequestDto input);
 
         Task DeleteAsync(Guid id);
 

@@ -60,6 +60,19 @@
     "Brands": "Brands",
     "NewBrand": "New Brand",
     "Brand": "Brand",
-    "Menu:Brands": "Brands"
+    "Menu:Brands": "Brands",
+    "Permission:Companies": "Companies",
+    "Companies": "Companies",
+    "NewCompany": "New Company",
+    "Company": "Company",
+    "Menu:Companies": "Companies",
+    "Permission:Vehicles": "Vehicles",
+    "Vehicles": "Vehicles",
+    "NewVehicle": "New Vehicle",
+    "Vehicle": "Vehicle",
+    "Menu:Vehicles": "Vehicles",
+    "Plate": "Plate",
+    "MinPlate": "Min Plate",
+    "MaxPlate": "Max Plate"
   }
 }

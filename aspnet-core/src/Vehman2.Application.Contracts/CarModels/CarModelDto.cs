@@ -7,6 +7,7 @@ namespace Vehman2.CarModels
     public class CarModelDto : FullAuditedEntityDto<Guid>, IHasConcurrencyStamp
     {
         public string Name { get; set; }
+        public Guid BrandId { get; set; }
 
         public string ConcurrencyStamp { get; set; }
     }

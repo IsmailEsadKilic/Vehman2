@@ -1,3 +1,4 @@
+using Vehman2.Companies;
 using System;
 using System.Threading.Tasks;
 using Volo.Abp.Data;
@@ -12,12 +13,13 @@ namespace Vehman2.Owners
         private bool IsSeeded = false;
         private readonly IOwnerRepository _ownerRepository;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
+        private readonly CompaniesDataSeedContributor _companiesDataSeedContributor;
 
-        public OwnersDataSeedContributor(IOwnerRepository ownerRepository, IUnitOfWorkManager unitOfWorkManager)
+        public OwnersDataSeedContributor(IOwnerRepository ownerRepository, IUnitOfWorkManager unitOfWorkManager, CompaniesDataSeedContributor companiesDataSeedContributor)
         {
             _ownerRepository = ownerRepository;
             _unitOfWorkManager = unitOfWorkManager;
-
+            _companiesDataSeedContributor = companiesDataSeedContributor;
         }
 
         public async Task SeedAsync(DataSeedContext context)
@@ -27,16 +29,20 @@ namespace Vehman2.Owners
                 return;
             }
 
+            await _companiesDataSeedContributor.SeedAsync(context);
+
             await _ownerRepository.InsertAsync(new Owner
             (
-                id: Guid.Parse("a7b90ad5-686d-4c4e-84fb-cb786c5cd180"),
-                name: "efba5a42b6a9441c96cfd610b26a3f2afb823c3d615e438a90d8c618dd9a3232d55d2e9c836f43ed903"
+                id: Guid.Parse("9107552d-e084-473e-ba34-f674f8509e9b"),
+                name: "28db860b95634be8b0d6cb99327908e3c9c0585b04844469aa70d1c847b872283c928e20603447629",
+                companyId: Guid.Parse("4c1ffebb-1f01-4052-aabe-d2406b44aaf1")
             ));
 
             await _ownerRepository.InsertAsync(new Owner
             (
-                id: Guid.Parse("d568ca04-9dac-47ac-81c2-03037efc67d7"),
-                name: "be2af4b9a2c34305a8963"
+                id: Guid.Parse("a48e770b-d759-4487-ab3f-29f6002c9775"),
+                name: "fe5004b7",
+                companyId: Guid.Parse("4c1ffebb-1f01-4052-aabe-d2406b44aaf1")
             ));
 
             await _unitOfWorkManager.Current.SaveChangesAsync();

@@ -9,6 +9,7 @@ namespace Vehman2.CarModels
     {
         [Required]
         public string Name { get; set; }
+        public Guid BrandId { get; set; }
 
         public string ConcurrencyStamp { get; set; }
     }

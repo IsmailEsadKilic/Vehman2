@@ -5,7 +5,10 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { filter, finalize, switchMap, tap } from 'rxjs/operators';
-import type { GetCarModelsInput, CarModelDto } from '../../../proxy/car-models/models';
+import type {
+  GetCarModelsInput,
+  CarModelWithNavigationPropertiesDto,
+} from '../../../proxy/car-models/models';
 import { CarModelService } from '../../../proxy/car-models/car-model.service';
 @Component({
   selector: 'app-car-model',
@@ -15,7 +18,7 @@ import { CarModelService } from '../../../proxy/car-models/car-model.service';
   styles: [],
 })
 export class CarModelComponent implements OnInit {
-  data: PagedResultDto<CarModelDto> = {
+  data: PagedResultDto<CarModelWithNavigationPropertiesDto> = {
     items: [],
     totalCount: 0,
   };
@@ -32,7 +35,7 @@ export class CarModelComponent implements OnInit {
 
   isExportToExcelBusy = false;
 
-  selected?: CarModelDto;
+  selected?: CarModelWithNavigationPropertiesDto;
 
   constructor(
     public readonly list: ListService,
@@ -50,7 +53,8 @@ export class CarModelComponent implements OnInit {
         filterText: query.filter,
       });
 
-    const setData = (list: PagedResultDto<CarModelDto>) => (this.data = list);
+    const setData = (list: PagedResultDto<CarModelWithNavigationPropertiesDto>) =>
+      (this.data = list);
 
     this.list.hookToQuery(getData).subscribe(setData);
   }
@@ -60,10 +64,11 @@ export class CarModelComponent implements OnInit {
   }
 
   buildForm() {
-    const { name } = this.selected || {};
+    const { name, brandId } = this.selected?.carModel || {};
 
     this.form = this.fb.group({
       name: [name ?? null, [Validators.required]],
+      brandId: [brandId ?? null, [Validators.required]],
     });
   }
 
@@ -81,9 +86,9 @@ export class CarModelComponent implements OnInit {
     if (this.form.invalid) return;
 
     const request = this.selected
-      ? this.service.update(this.selected.id, {
+      ? this.service.update(this.selected.carModel.id, {
           ...this.form.value,
-          concurrencyStamp: this.selected.concurrencyStamp,
+          concurrencyStamp: this.selected.carModel.concurrencyStamp,
         })
       : this.service.create(this.form.value);
 
@@ -102,17 +107,17 @@ export class CarModelComponent implements OnInit {
     this.showForm();
   }
 
-  update(record: CarModelDto) {
+  update(record: CarModelWithNavigationPropertiesDto) {
     this.selected = record;
     this.showForm();
   }
 
-  delete(record: CarModelDto) {
+  delete(record: CarModelWithNavigationPropertiesDto) {
     this.confirmation
       .warn('::DeleteConfirmationMessage', '::AreYouSure', { messageLocalizationParams: [] })
       .pipe(
         filter(status => status === Confirmation.Status.confirm),
-        switchMap(() => this.service.delete(record.id))
+        switchMap(() => this.service.delete(record.carModel.id))
       )
       .subscribe(this.list.get);
   }

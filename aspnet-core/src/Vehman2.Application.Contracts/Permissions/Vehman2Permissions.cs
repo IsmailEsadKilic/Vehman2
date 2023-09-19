@@ -45,4 +45,20 @@ public static class Vehman2Permissions
         public const string Create = Default + ".Create";
         public const string Delete = Default + ".Delete";
     }
+
+    public static class Companies
+    {
+        public const string Default = GroupName + ".Companies";
+        public const string Edit = Default + ".Edit";
+        public const string Create = Default + ".Create";
+        public const string Delete = Default + ".Delete";
+    }
+
+    public static class Vehicles
+    {
+        public const string Default = GroupName + ".Vehicles";
+        public const string Edit = Default + ".Edit";
+        public const string Create = Default + ".Create";
+        public const string Delete = Default + ".Delete";
+    }
 }

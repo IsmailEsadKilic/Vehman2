@@ -1,3 +1,5 @@
+using Vehman2.Shared;
+using Vehman2.Brands;
 using System;
 using System.IO;
 using System.Linq;
@@ -27,29 +29,52 @@ namespace Vehman2.CarModels
         private readonly IDistributedCache<CarModelExcelDownloadTokenCacheItem, string> _excelDownloadTokenCache;
         private readonly ICarModelRepository _carModelRepository;
         private readonly CarModelManager _carModelManager;
+        private readonly IRepository<Brand, Guid> _brandRepository;
 
-        public CarModelsAppService(ICarModelRepository carModelRepository, CarModelManager carModelManager, IDistributedCache<CarModelExcelDownloadTokenCacheItem, string> excelDownloadTokenCache)
+        public CarModelsAppService(ICarModelRepository carModelRepository, CarModelManager carModelManager, IDistributedCache<CarModelExcelDownloadTokenCacheItem, string> excelDownloadTokenCache, IRepository<Brand, Guid> brandRepository)
         {
             _excelDownloadTokenCache = excelDownloadTokenCache;
             _carModelRepository = carModelRepository;
-            _carModelManager = carModelManager;
+            _carModelManager = carModelManager; _brandRepository = brandRepository;
         }
 
-        public virtual async Task<PagedResultDto<CarModelDto>> GetListAsync(GetCarModelsInput input)
+        public virtual async Task<PagedResultDto<CarModelWithNavigationPropertiesDto>> GetListAsync(GetCarModelsInput input)
         {
-            var totalCount = await _carModelRepository.GetCountAsync(input.FilterText, input.Name);
-            var items = await _carModelRepository.GetListAsync(input.FilterText, input.Name, input.Sorting, input.MaxResultCount, input.SkipCount);
+            var totalCount = await _carModelRepository.GetCountAsync(input.FilterText, input.Name, input.BrandId);
+            var items = await _carModelRepository.GetListWithNavigationPropertiesAsync(input.FilterText, input.Name, input.BrandId, input.Sorting, input.MaxResultCount, input.SkipCount);
 
-            return new PagedResultDto<CarModelDto>
+            return new PagedResultDto<CarModelWithNavigationPropertiesDto>
             {
                 TotalCount = totalCount,
-                Items = ObjectMapper.Map<List<CarModel>, List<CarModelDto>>(items)
+                Items = ObjectMapper.Map<List<CarModelWithNavigationProperties>, List<CarModelWithNavigationPropertiesDto>>(items)
             };
+        }
+
+        public virtual async Task<CarModelWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id)
+        {
+            return ObjectMapper.Map<CarModelWithNavigationProperties, CarModelWithNavigationPropertiesDto>
+                (await _carModelRepository.GetWithNavigationPropertiesAsync(id));
         }
 
         public virtual async Task<CarModelDto> GetAsync(Guid id)
         {
             return ObjectMapper.Map<CarModel, CarModelDto>(await _carModelRepository.GetAsync(id));
+        }
+
+        public virtual async Task<PagedResultDto<LookupDto<Guid>>> GetBrandLookupAsync(LookupRequestDto input)
+        {
+            var query = (await _brandRepository.GetQueryableAsync())
+                .WhereIf(!string.IsNullOrWhiteSpace(input.Filter),
+                    x => x.Name != null &&
+                         x.Name.Contains(input.Filter));
+
+            var lookupData = await query.PageBy(input.SkipCount, input.MaxResultCount).ToDynamicListAsync<Brand>();
+            var totalCount = query.Count();
+            return new PagedResultDto<LookupDto<Guid>>
+            {
+                TotalCount = totalCount,
+                Items = ObjectMapper.Map<List<Brand>, List<LookupDto<Guid>>>(lookupData)
+            };
         }
 
         [Authorize(Vehman2Permissions.CarModels.Delete)]
@@ -61,9 +86,13 @@ namespace Vehman2.CarModels
         [Authorize(Vehman2Permissions.CarModels.Create)]
         public virtual async Task<CarModelDto> CreateAsync(CarModelCreateDto input)
         {
+            if (input.BrandId == default)
+            {
+                throw new UserFriendlyException(L["The {0} field is required.", L["Brand"]]);
+            }
 
             var carModel = await _carModelManager.CreateAsync(
-            input.Name
+            input.BrandId, input.Name
             );
 
             return ObjectMapper.Map<CarModel, CarModelDto>(carModel);
@@ -72,10 +101,14 @@ namespace Vehman2.CarModels
         [Authorize(Vehman2Permissions.CarModels.Edit)]
         public virtual async Task<CarModelDto> UpdateAsync(Guid id, CarModelUpdateDto input)
         {
+            if (input.BrandId == default)
+            {
+                throw new UserFriendlyException(L["The {0} field is required.", L["Brand"]]);
+            }
 
             var carModel = await _carModelManager.UpdateAsync(
             id,
-            input.Name, input.ConcurrencyStamp
+            input.BrandId, input.Name, input.ConcurrencyStamp
             );
 
             return ObjectMapper.Map<CarModel, CarModelDto>(carModel);
@@ -90,10 +123,17 @@ namespace Vehman2.CarModels
                 throw new AbpAuthorizationException("Invalid download token: " + input.DownloadToken);
             }
 
-            var items = await _carModelRepository.GetListAsync(input.FilterText, input.Name);
+            var carModels = await _carModelRepository.GetListWithNavigationPropertiesAsync(input.FilterText, input.Name);
+            var items = carModels.Select(item => new
+            {
+                Name = item.CarModel.Name,
+
+                Brand = item.Brand?.Name,
+
+            });
 
             var memoryStream = new MemoryStream();
-            await memoryStream.SaveAsAsync(ObjectMapper.Map<List<CarModel>, List<CarModelExcelDto>>(items));
+            await memoryStream.SaveAsAsync(items);
             memoryStream.Seek(0, SeekOrigin.Begin);
 
             return new RemoteStreamContent(memoryStream, "CarModels.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");

@@ -9,6 +9,7 @@ namespace Vehman2.Owners
     {
         [Required]
         public string Name { get; set; }
+        public Guid CompanyId { get; set; }
 
         public string ConcurrencyStamp { get; set; }
     }

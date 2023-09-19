@@ -1,8 +1,8 @@
-import type { CarModelCreateDto, CarModelDto, CarModelExcelDownloadDto, CarModelUpdateDto, GetCarModelsInput } from './models';
+import type { CarModelCreateDto, CarModelDto, CarModelExcelDownloadDto, CarModelUpdateDto, CarModelWithNavigationPropertiesDto, GetCarModelsInput } from './models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { DownloadTokenResultDto } from '../shared/models';
+import type { DownloadTokenResultDto, LookupDto, LookupRequestDto } from '../shared/models';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +36,15 @@ export class CarModelService {
     { apiName: this.apiName,...config });
   
 
+  getBrandLookup = (input: LookupRequestDto, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, PagedResultDto<LookupDto<string>>>({
+      method: 'GET',
+      url: '/api/app/car-models/brand-lookup',
+      params: { filter: input.filter, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName,...config });
+  
+
   getDownloadToken = (config?: Partial<Rest.Config>) =>
     this.restService.request<any, DownloadTokenResultDto>({
       method: 'GET',
@@ -45,10 +54,10 @@ export class CarModelService {
   
 
   getList = (input: GetCarModelsInput, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, PagedResultDto<CarModelDto>>({
+    this.restService.request<any, PagedResultDto<CarModelWithNavigationPropertiesDto>>({
       method: 'GET',
       url: '/api/app/car-models',
-      params: { filterText: input.filterText, name: input.name, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { filterText: input.filterText, name: input.name, brandId: input.brandId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName,...config });
   
@@ -59,6 +68,14 @@ export class CarModelService {
       responseType: 'blob',
       url: '/api/app/car-models/as-excel-file',
       params: { downloadToken: input.downloadToken, filterText: input.filterText, name: input.name },
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getWithNavigationProperties = (id: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, CarModelWithNavigationPropertiesDto>({
+      method: 'GET',
+      url: `/api/app/car-models/with-navigation-properties/${id}`,
     },
     { apiName: this.apiName,...config });
   

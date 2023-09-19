@@ -10,6 +10,7 @@ namespace Vehman2.Owners
         public string? FilterText { get; set; }
 
         public string? Name { get; set; }
+        public Guid? CompanyId { get; set; }
 
         public OwnerExcelDownloadDto()
         {

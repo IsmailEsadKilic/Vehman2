@@ -1,3 +1,4 @@
+using Vehman2.Companies;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -15,18 +16,20 @@ namespace Vehman2.Owners
     {
         [NotNull]
         public virtual string Name { get; set; }
+        public Guid CompanyId { get; set; }
 
         public Owner()
         {
 
         }
 
-        public Owner(Guid id, string name)
+        public Owner(Guid id, Guid companyId, string name)
         {
 
             Id = id;
             Check.NotNull(name, nameof(name));
             Name = name;
+            CompanyId = companyId;
         }
 
     }

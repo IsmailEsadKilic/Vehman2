@@ -1,3 +1,4 @@
+using Vehman2.Brands;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace Vehman2.CarModels
     {
         [NotNull]
         public virtual string Name { get; set; }
+        public Guid BrandId { get; set; }
 
         public string ConcurrencyStamp { get; set; }
 
@@ -24,12 +26,13 @@ namespace Vehman2.CarModels
 
         }
 
-        public CarModel(Guid id, string name)
+        public CarModel(Guid id, Guid brandId, string name)
         {
             ConcurrencyStamp = Guid.NewGuid().ToString("N");
             Id = id;
             Check.NotNull(name, nameof(name));
             Name = name;
+            BrandId = brandId;
         }
 
     }

@@ -1,3 +1,5 @@
+using Vehman2.Shared;
+using Vehman2.Companies;
 using System;
 using System.IO;
 using System.Linq;
@@ -27,29 +29,52 @@ namespace Vehman2.Owners
         private readonly IDistributedCache<OwnerExcelDownloadTokenCacheItem, string> _excelDownloadTokenCache;
         private readonly IOwnerRepository _ownerRepository;
         private readonly OwnerManager _ownerManager;
+        private readonly IRepository<Company, Guid> _companyRepository;
 
-        public OwnersAppService(IOwnerRepository ownerRepository, OwnerManager ownerManager, IDistributedCache<OwnerExcelDownloadTokenCacheItem, string> excelDownloadTokenCache)
+        public OwnersAppService(IOwnerRepository ownerRepository, OwnerManager ownerManager, IDistributedCache<OwnerExcelDownloadTokenCacheItem, string> excelDownloadTokenCache, IRepository<Company, Guid> companyRepository)
         {
             _excelDownloadTokenCache = excelDownloadTokenCache;
             _ownerRepository = ownerRepository;
-            _ownerManager = ownerManager;
+            _ownerManager = ownerManager; _companyRepository = companyRepository;
         }
 
-        public virtual async Task<PagedResultDto<OwnerDto>> GetListAsync(GetOwnersInput input)
+        public virtual async Task<PagedResultDto<OwnerWithNavigationPropertiesDto>> GetListAsync(GetOwnersInput input)
         {
-            var totalCount = await _ownerRepository.GetCountAsync(input.FilterText, input.Name);
-            var items = await _ownerRepository.GetListAsync(input.FilterText, input.Name, input.Sorting, input.MaxResultCount, input.SkipCount);
+            var totalCount = await _ownerRepository.GetCountAsync(input.FilterText, input.Name, input.CompanyId);
+            var items = await _ownerRepository.GetListWithNavigationPropertiesAsync(input.FilterText, input.Name, input.CompanyId, input.Sorting, input.MaxResultCount, input.SkipCount);
 
-            return new PagedResultDto<OwnerDto>
+            return new PagedResultDto<OwnerWithNavigationPropertiesDto>
             {
                 TotalCount = totalCount,
-                Items = ObjectMapper.Map<List<Owner>, List<OwnerDto>>(items)
+                Items = ObjectMapper.Map<List<OwnerWithNavigationProperties>, List<OwnerWithNavigationPropertiesDto>>(items)
             };
+        }
+
+        public virtual async Task<OwnerWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id)
+        {
+            return ObjectMapper.Map<OwnerWithNavigationProperties, OwnerWithNavigationPropertiesDto>
+                (await _ownerRepository.GetWithNavigationPropertiesAsync(id));
         }
 
         public virtual async Task<OwnerDto> GetAsync(Guid id)
         {
             return ObjectMapper.Map<Owner, OwnerDto>(await _ownerRepository.GetAsync(id));
+        }
+
+        public virtual async Task<PagedResultDto<LookupDto<Guid>>> GetCompanyLookupAsync(LookupRequestDto input)
+        {
+            var query = (await _companyRepository.GetQueryableAsync())
+                .WhereIf(!string.IsNullOrWhiteSpace(input.Filter),
+                    x => x.Name != null &&
+                         x.Name.Contains(input.Filter));
+
+            var lookupData = await query.PageBy(input.SkipCount, input.MaxResultCount).ToDynamicListAsync<Company>();
+            var totalCount = query.Count();
+            return new PagedResultDto<LookupDto<Guid>>
+            {
+                TotalCount = totalCount,
+                Items = ObjectMapper.Map<List<Company>, List<LookupDto<Guid>>>(lookupData)
+            };
         }
 
         [Authorize(Vehman2Permissions.Owners.Delete)]
@@ -61,9 +86,13 @@ namespace Vehman2.Owners
         [Authorize(Vehman2Permissions.Owners.Create)]
         public virtual async Task<OwnerDto> CreateAsync(OwnerCreateDto input)
         {
+            if (input.CompanyId == default)
+            {
+                throw new UserFriendlyException(L["The {0} field is required.", L["Company"]]);
+            }
 
             var owner = await _ownerManager.CreateAsync(
-            input.Name
+            input.CompanyId, input.Name
             );
 
             return ObjectMapper.Map<Owner, OwnerDto>(owner);
@@ -72,10 +101,14 @@ namespace Vehman2.Owners
         [Authorize(Vehman2Permissions.Owners.Edit)]
         public virtual async Task<OwnerDto> UpdateAsync(Guid id, OwnerUpdateDto input)
         {
+            if (input.CompanyId == default)
+            {
+                throw new UserFriendlyException(L["The {0} field is required.", L["Company"]]);
+            }
 
             var owner = await _ownerManager.UpdateAsync(
             id,
-            input.Name, input.ConcurrencyStamp
+            input.CompanyId, input.Name, input.ConcurrencyStamp
             );
 
             return ObjectMapper.Map<Owner, OwnerDto>(owner);
@@ -90,10 +123,17 @@ namespace Vehman2.Owners
                 throw new AbpAuthorizationException("Invalid download token: " + input.DownloadToken);
             }
 
-            var items = await _ownerRepository.GetListAsync(input.FilterText, input.Name);
+            var owners = await _ownerRepository.GetListWithNavigationPropertiesAsync(input.FilterText, input.Name);
+            var items = owners.Select(item => new
+            {
+                Name = item.Owner.Name,
+
+                Company = item.Company?.Name,
+
+            });
 
             var memoryStream = new MemoryStream();
-            await memoryStream.SaveAsAsync(ObjectMapper.Map<List<Owner>, List<OwnerExcelDto>>(items));
+            await memoryStream.SaveAsAsync(items);
             memoryStream.Seek(0, SeekOrigin.Begin);
 
             return new RemoteStreamContent(memoryStream, "Owners.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");

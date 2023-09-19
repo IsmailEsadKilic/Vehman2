@@ -25,13 +25,13 @@ namespace Vehman2.CarModels
             {
                 // Act
                 var result = await _carModelRepository.GetListAsync(
-                    name: "44cc973a"
+                    name: "81a45372c2044137ac4c69d5df8e31116868ea8c248f4abea3201e98f3"
                 );
 
                 // Assert
                 result.Count.ShouldBe(1);
                 result.FirstOrDefault().ShouldNotBe(null);
-                result.First().Id.ShouldBe(Guid.Parse("324cdde1-e588-43b7-b2b0-070e37d32647"));
+                result.First().Id.ShouldBe(Guid.Parse("dbd9c0c9-b0db-45de-ae1e-9c7e10adb8e0"));
             });
         }
 
@@ -43,7 +43,7 @@ namespace Vehman2.CarModels
             {
                 // Act
                 var result = await _carModelRepository.GetCountAsync(
-                    name: "df86cc80f63a4c"
+                    name: "c21033367ff5430ea2e09d4f473f6c0e4023fc516de4492fb"
                 );
 
                 // Assert

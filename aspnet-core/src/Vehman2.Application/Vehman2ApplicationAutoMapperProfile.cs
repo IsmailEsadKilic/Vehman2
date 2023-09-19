@@ -1,3 +1,5 @@
+using Vehman2.Vehicles;
+using Vehman2.Companies;
 using Vehman2.Brands;
 using Vehman2.CarModels;
 using Vehman2.Owners;
@@ -28,5 +30,21 @@ public class Vehman2ApplicationAutoMapperProfile : Profile
 
         CreateMap<Brand, BrandDto>();
         CreateMap<Brand, BrandExcelDto>();
+
+        CreateMap<CarModelWithNavigationProperties, CarModelWithNavigationPropertiesDto>();
+        CreateMap<Brand, LookupDto<Guid>>().ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.Name));
+
+        CreateMap<Company, CompanyDto>();
+        CreateMap<Company, CompanyExcelDto>();
+
+        CreateMap<OwnerWithNavigationProperties, OwnerWithNavigationPropertiesDto>();
+        CreateMap<Company, LookupDto<Guid>>().ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.Name));
+
+        CreateMap<Vehicle, VehicleDto>();
+        CreateMap<Vehicle, VehicleExcelDto>();
+        CreateMap<VehicleWithNavigationProperties, VehicleWithNavigationPropertiesDto>();
+        CreateMap<CarModel, LookupDto<Guid>>().ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.Name));
+        CreateMap<Fuel, LookupDto<Guid>>().ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.Name));
+        CreateMap<Owner, LookupDto<Guid>>().ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.Name));
     }
 }

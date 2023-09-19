@@ -1,3 +1,4 @@
+using Vehman2.Shared;
 using System;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
@@ -9,9 +10,13 @@ namespace Vehman2.Owners
 {
     public interface IOwnersAppService : IApplicationService
     {
-        Task<PagedResultDto<OwnerDto>> GetListAsync(GetOwnersInput input);
+        Task<PagedResultDto<OwnerWithNavigationPropertiesDto>> GetListAsync(GetOwnersInput input);
+
+        Task<OwnerWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id);
 
         Task<OwnerDto> GetAsync(Guid id);
+
+        Task<PagedResultDto<LookupDto<Guid>>> GetCompanyLookupAsync(LookupRequestDto input);
 
         Task DeleteAsync(Guid id);
 

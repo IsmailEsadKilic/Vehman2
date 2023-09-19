@@ -78,6 +78,14 @@ const routes: Routes = [
     path: 'brands',
     loadChildren: () => import('./brands/brand/brand.module').then(m => m.BrandModule),
   },
+  {
+    path: 'companies',
+    loadChildren: () => import('./companies/company/company.module').then(m => m.CompanyModule),
+  },
+  {
+    path: 'vehicles',
+    loadChildren: () => import('./vehicles/vehicle/vehicle.module').then(m => m.VehicleModule),
+  },
 ];
 
 @NgModule({

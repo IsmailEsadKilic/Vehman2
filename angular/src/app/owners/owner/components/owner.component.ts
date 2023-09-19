@@ -5,7 +5,10 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { filter, finalize, switchMap, tap } from 'rxjs/operators';
-import type { GetOwnersInput, OwnerDto } from '../../../proxy/owners/models';
+import type {
+  GetOwnersInput,
+  OwnerWithNavigationPropertiesDto,
+} from '../../../proxy/owners/models';
 import { OwnerService } from '../../../proxy/owners/owner.service';
 @Component({
   selector: 'app-owner',
@@ -15,7 +18,7 @@ import { OwnerService } from '../../../proxy/owners/owner.service';
   styles: [],
 })
 export class OwnerComponent implements OnInit {
-  data: PagedResultDto<OwnerDto> = {
+  data: PagedResultDto<OwnerWithNavigationPropertiesDto> = {
     items: [],
     totalCount: 0,
   };
@@ -32,7 +35,7 @@ export class OwnerComponent implements OnInit {
 
   isExportToExcelBusy = false;
 
-  selected?: OwnerDto;
+  selected?: OwnerWithNavigationPropertiesDto;
 
   constructor(
     public readonly list: ListService,
@@ -50,7 +53,7 @@ export class OwnerComponent implements OnInit {
         filterText: query.filter,
       });
 
-    const setData = (list: PagedResultDto<OwnerDto>) => (this.data = list);
+    const setData = (list: PagedResultDto<OwnerWithNavigationPropertiesDto>) => (this.data = list);
 
     this.list.hookToQuery(getData).subscribe(setData);
   }
@@ -60,10 +63,11 @@ export class OwnerComponent implements OnInit {
   }
 
   buildForm() {
-    const { name } = this.selected || {};
+    const { name, companyId } = this.selected?.owner || {};
 
     this.form = this.fb.group({
       name: [name ?? null, [Validators.required]],
+      companyId: [companyId ?? null, [Validators.required]],
     });
   }
 
@@ -81,9 +85,9 @@ export class OwnerComponent implements OnInit {
     if (this.form.invalid) return;
 
     const request = this.selected
-      ? this.service.update(this.selected.id, {
+      ? this.service.update(this.selected.owner.id, {
           ...this.form.value,
-          concurrencyStamp: this.selected.concurrencyStamp,
+          concurrencyStamp: this.selected.owner.concurrencyStamp,
         })
       : this.service.create(this.form.value);
 
@@ -102,17 +106,17 @@ export class OwnerComponent implements OnInit {
     this.showForm();
   }
 
-  update(record: OwnerDto) {
+  update(record: OwnerWithNavigationPropertiesDto) {
     this.selected = record;
     this.showForm();
   }
 
-  delete(record: OwnerDto) {
+  delete(record: OwnerWithNavigationPropertiesDto) {
     this.confirmation
       .warn('::DeleteConfirmationMessage', '::AreYouSure', { messageLocalizationParams: [] })
       .pipe(
         filter(status => status === Confirmation.Status.confirm),
-        switchMap(() => this.service.delete(record.id))
+        switchMap(() => this.service.delete(record.owner.id))
       )
       .subscribe(this.list.get);
   }

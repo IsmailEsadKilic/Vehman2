@@ -44,7 +44,23 @@
       "OrdinalIndex": 0
     }
   ],
-  "NavigationProperties": [],
+  "NavigationProperties": [
+    {
+      "EntityNameWithDuplicationNumber": "Company",
+      "EntitySetNameWithDuplicationNumber": "Companies",
+      "ReferencePropertyName": "Company",
+      "UiPickType": "Dropdown",
+      "IsRequired": true,
+      "Name": "CompanyId",
+      "DisplayProperty": "Name",
+      "Namespace": "Vehman2.Companies",
+      "EntityName": "Company",
+      "EntitySetName": "Companies",
+      "DtoNamespace": "Vehman2.Companies",
+      "DtoEntityName": "CompanyDto",
+      "Type": "Guid"
+    }
+  ],
   "NavigationConnections": [],
   "PhysicalFileName": "Owner.json"
 }

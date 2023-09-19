@@ -1,3 +1,5 @@
+using Vehman2.Vehicles;
+using Vehman2.Companies;
 using Vehman2.Brands;
 using Vehman2.CarModels;
 using Vehman2.Owners;
@@ -60,6 +62,10 @@ public class Vehman2EntityFrameworkCoreModule : AbpModule
             options.AddRepository<CarModel, CarModels.EfCoreCarModelRepository>();
 
             options.AddRepository<Brand, Brands.EfCoreBrandRepository>();
+
+            options.AddRepository<Company, Companies.EfCoreCompanyRepository>();
+
+            options.AddRepository<Vehicle, Vehicles.EfCoreVehicleRepository>();
 
         });
 
