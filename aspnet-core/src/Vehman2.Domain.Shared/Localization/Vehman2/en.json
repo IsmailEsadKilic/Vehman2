@@ -73,6 +73,19 @@
     "Menu:Vehicles": "Vehicles",
     "Plate": "Plate",
     "MinPlate": "Min Plate",
-    "MaxPlate": "Max Plate"
+    "MaxPlate": "Max Plate",
+    "Permission:Transactions": "Transactions",
+    "Transactions": "Transactions",
+    "NewTransaction": "New Transaction",
+    "Transaction": "Transaction",
+    "Menu:Transactions": "Transactions",
+    "Price": "Price",
+    "Liters": "Liters",
+    "MinPrice": "Min Price",
+    "MinLiters": "Min Liters",
+    "MinDate": "Min Date",
+    "MaxPrice": "Max Price",
+    "MaxLiters": "Max Liters",
+    "MaxDate": "Max Date"
   }
 }

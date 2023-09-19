@@ -1,3 +1,4 @@
+using Vehman2.Transactions;
 using Vehman2.Vehicles;
 using Vehman2.Companies;
 using Vehman2.Brands;
@@ -66,6 +67,8 @@ public class Vehman2EntityFrameworkCoreModule : AbpModule
             options.AddRepository<Company, Companies.EfCoreCompanyRepository>();
 
             options.AddRepository<Vehicle, Vehicles.EfCoreVehicleRepository>();
+
+            options.AddRepository<Transaction, Transactions.EfCoreTransactionRepository>();
 
         });
 

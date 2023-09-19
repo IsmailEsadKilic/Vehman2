@@ -1,3 +1,4 @@
+using Vehman2.Transactions;
 using Vehman2.Vehicles;
 using Vehman2.Companies;
 using Vehman2.Brands;
@@ -35,6 +36,7 @@ public class Vehman2DbContext :
     IIdentityProDbContext,
     ISaasDbContext
 {
+    public DbSet<Transaction> Transactions { get; set; }
     public DbSet<Vehicle> Vehicles { get; set; }
     public DbSet<Company> Companies { get; set; }
     public DbSet<Brand> Brands { get; set; }
@@ -175,6 +177,19 @@ public class Vehman2DbContext :
     b.HasOne<CarModel>().WithMany().IsRequired().HasForeignKey(x => x.CarModelId).OnDelete(DeleteBehavior.NoAction);
     b.HasOne<Fuel>().WithMany().IsRequired().HasForeignKey(x => x.FuelId).OnDelete(DeleteBehavior.NoAction);
     b.HasOne<Owner>().WithMany().IsRequired().HasForeignKey(x => x.OwnerId).OnDelete(DeleteBehavior.NoAction);
+});
+
+        }
+        if (builder.IsHostDatabase())
+        {
+            builder.Entity<Transaction>(b =>
+{
+    b.ToTable(Vehman2Consts.DbTablePrefix + "Transactions", Vehman2Consts.DbSchema);
+    b.ConfigureByConvention();
+    b.Property(x => x.Price).HasColumnName(nameof(Transaction.Price)).IsRequired().HasMaxLength((int)TransactionConsts.PriceMaxLength);
+    b.Property(x => x.Liters).HasColumnName(nameof(Transaction.Liters)).HasMaxLength((int)TransactionConsts.LitersMaxLength);
+    b.Property(x => x.Date).HasColumnName(nameof(Transaction.Date));
+    b.HasOne<Vehicle>().WithMany().IsRequired().HasForeignKey(x => x.VehicleId).OnDelete(DeleteBehavior.NoAction);
 });
 
         }

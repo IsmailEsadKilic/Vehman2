@@ -1,0 +1,357 @@
+<abp-page [title]="'::Transactions' | abpLocalization">
+  <abp-page-toolbar-container class="col">
+    <div class="text-lg-end pt-2">
+      <button
+        class="btn btn-primary btn-sm mx-2"
+        type="button"
+        [disabled]="isExportToExcelBusy"
+        (click)="exportToExcel()"
+      >
+        {{ '::ExportToExcel' | abpLocalization }}
+      </button>
+
+      <button
+        *abpPermission="'Vehman2.Transactions.Create'"
+        class="btn btn-primary btn-sm"
+        type="button"
+        (click)="create()"
+      >
+        <i class="fa fa-plus me-1" aria-hidden="true"></i>
+        {{ '::NewTransaction' | abpLocalization }}
+      </button>
+    </div>
+  </abp-page-toolbar-container>
+
+  <abp-advanced-entity-filters localizationSourceName="" [list]="list">
+    <abp-advanced-entity-filters-form>
+      <form #filterForm (keyup.enter)="list.get()">
+        <div class="row">
+          <div class="col-12 col-sm-auto">
+            <div class="mb-3">
+              <label class="form-label" for="minPrice">
+                {{ '::MinPrice' | abpLocalization }}
+              </label>
+
+              <input
+                id="minPrice"
+                type="number"
+                class="form-control"
+                [(ngModel)]="filters.priceMin"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-auto">
+            <div class="mb-3">
+              <label class="form-label" for="maxPrice">
+                {{ '::MaxPrice' | abpLocalization }}
+              </label>
+
+              <input
+                id="maxPrice"
+                type="number"
+                class="form-control"
+                [(ngModel)]="filters.priceMax"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+          </div>
+          <div class="col-12 col-sm-auto">
+            <div class="mb-3">
+              <label class="form-label" for="minLiters">
+                {{ '::MinLiters' | abpLocalization }}
+              </label>
+
+              <input
+                id="minLiters"
+                type="number"
+                class="form-control"
+                [(ngModel)]="filters.litersMin"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-auto">
+            <div class="mb-3">
+              <label class="form-label" for="maxLiters">
+                {{ '::MaxLiters' | abpLocalization }}
+              </label>
+
+              <input
+                id="maxLiters"
+                type="number"
+                class="form-control"
+                [(ngModel)]="filters.litersMax"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+          </div>
+          <div class="col-12 col-sm-auto">
+            <div class="mb-3">
+              <label class="form-label" for="minDate">
+                {{ '::MinDate' | abpLocalization }}
+              </label>
+
+              <div class="input-group" validationTarget>
+                <input
+                  id="minDate"
+                  class="form-control"
+                  #minDateInput
+                  #minDateDatepicker="ngbDatepicker"
+                  name="minDate"
+                  ngbDatepicker
+                  container="body"
+                  readonly
+                  (click)="minDateDatepicker.toggle()"
+                  (keyup.space)="minDateDatepicker.toggle()"
+                  [(ngModel)]="filters.dateMin"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+                <div *ngIf="minDateInput.value" class="input-group-append">
+                  <button
+                    class="btn btn-link px-2"
+                    type="button"
+                    [title]="'AbpUi::Clear' | abpLocalization"
+                    (click)="
+                      minDateDatepicker.writeValue(null);
+                      minDateDatepicker.manualDateChange(null, true)
+                    "
+                  >
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-auto">
+            <div class="mb-3">
+              <label class="form-label" for="maxDate">
+                {{ '::MaxDate' | abpLocalization }}
+              </label>
+
+              <div class="input-group" validationTarget>
+                <input
+                  id="maxDate"
+                  class="form-control"
+                  #maxDateInput
+                  #maxDateDatepicker="ngbDatepicker"
+                  name="maxDate"
+                  ngbDatepicker
+                  readonly
+                  (click)="maxDateDatepicker.toggle()"
+                  (keyup.space)="maxDateDatepicker.toggle()"
+                  [(ngModel)]="filters.dateMax"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+                <div *ngIf="maxDateInput.value" class="input-group-append">
+                  <button
+                    class="btn btn-link px-2"
+                    type="button"
+                    [title]="'AbpUi::Clear' | abpLocalization"
+                    (click)="
+                      maxDateDatepicker.writeValue(null);
+                      maxDateDatepicker.manualDateChange(null, true)
+                    "
+                  >
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-auto">
+            <div class="mb-3">
+              <label class="form-label" for="vehicleIdFilter">
+                {{ '::Vehicle' | abpLocalization }}
+              </label>
+              <abp-lookup-select
+                cid="vehicleIdFilter"
+                [getFn]="service.getVehicleLookup"
+                [(ngModel)]="filters.vehicleId"
+                [ngModelOptions]="{ standalone: true }"
+              ></abp-lookup-select>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-auto align-self-end mb-3">
+            <div class="row">
+              <div class="col-6 col-sm-auto d-grid">
+                <button type="button" class="btn btn-outline-primary" (click)="clearFilters()">
+                  <span>{{ 'AbpUi::Clear' | abpLocalization }}</span>
+                </button>
+              </div>
+              <div class="col-6 col-sm-auto d-grid">
+                <button type="button" class="btn btn-primary" (click)="list.get()">
+                  <span>{{ 'AbpUi::Refresh' | abpLocalization }}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </abp-advanced-entity-filters-form>
+  </abp-advanced-entity-filters>
+
+  <div class="card">
+    <div class="card-body">
+      <ngx-datatable [rows]="data.items" [count]="data.totalCount" [list]="list" default>
+        <ngx-datatable-column
+          [name]="'AbpUi::Actions' | abpLocalization"
+          [maxWidth]="150"
+          [width]="150"
+          [sortable]="false"
+        >
+          <ng-template let-row="row" let-i="rowIndex" ngx-datatable-cell-template>
+            <div ngbDropdown container="body" class="d-inline-block">
+              <button
+                class="btn btn-primary btn-sm dropdown-toggle"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                ngbDropdownToggle
+              >
+                <i class="fa fa-cog me-1" aria-hidden="true"></i>
+                {{ 'AbpUi::Actions' | abpLocalization }}
+              </button>
+
+              <div ngbDropdownMenu>
+                <button
+                  ngbDropdownItem
+                  *abpPermission="'Vehman2.Transactions.Edit'"
+                  (click)="update(row)"
+                >
+                  {{ 'AbpUi::Edit' | abpLocalization }}
+                </button>
+
+                <button
+                  ngbDropdownItem
+                  *abpPermission="'Vehman2.Transactions.Delete'"
+                  (click)="delete(row)"
+                >
+                  {{ 'AbpUi::Delete' | abpLocalization }}
+                </button>
+              </div>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{ '::Price' | abpLocalization }}" prop="transaction.price">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.transaction.price }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{ '::Liters' | abpLocalization }}" prop="transaction.liters">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.transaction.liters }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{ '::Date' | abpLocalization }}" prop="transaction.date">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.transaction.date | date }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="{{ '::Vehicle' | abpLocalization }}" prop="vehicle.plate">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.vehicle?.plate }}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+</abp-page>
+
+<abp-modal [busy]="isModalBusy" [(visible)]="isModalOpen">
+  <ng-template #abpHeader>
+    <h3>
+      {{ (selected ? 'AbpUi::Edit' : '::NewTransaction') | abpLocalization }}
+    </h3>
+  </ng-template>
+
+  <ng-template #abpBody>
+    <form [formGroup]="form" id="transaction" (ngSubmit)="submitForm()" validateOnSubmit>
+      <div class="mt-2 fade-in-top">
+        <div class="mb-3">
+          <label class="form-label" for="transaction-price">
+            {{ '::Price' | abpLocalization }} *
+          </label>
+
+          <input
+            type="number"
+            id="transaction-price"
+            formControlName="price"
+            class="form-control"
+            max="999999"
+            autofocus
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="transaction-liters">
+            {{ '::Liters' | abpLocalization }}
+          </label>
+
+          <input
+            type="number"
+            id="transaction-liters"
+            formControlName="liters"
+            class="form-control"
+            max="999999"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="transaction-date">
+            {{ '::Date' | abpLocalization }}
+          </label>
+
+          <div class="input-group" validationTarget>
+            <input
+              readonly
+              id="transaction-date"
+              formControlName="date"
+              class="form-control"
+              ngbDatepicker
+              #dateInput
+              #dateDatepicker="ngbDatepicker"
+              (click)="dateDatepicker.open()"
+              (keyup.space)="dateDatepicker.open()"
+            />
+            <div *ngIf="dateInput.value" class="input-group-append">
+              <button
+                class="btn btn-link px-2"
+                type="button"
+                [title]="'AbpUi::Clear' | abpLocalization"
+                (click)="
+                  dateDatepicker.writeValue(null); dateDatepicker.manualDateChange(null, true)
+                "
+              >
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="transaction-vehicle-id">
+            {{ '::Vehicle' | abpLocalization }} *
+          </label>
+
+          <abp-lookup-select
+            cid="transaction-vehicle-id"
+            formControlName="vehicleId"
+            [getFn]="service.getVehicleLookup"
+          ></abp-lookup-select>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template #abpFooter>
+    <button type="button" class="btn btn-secondary" abpClose>
+      {{ 'AbpUi::Cancel' | abpLocalization }}
+    </button>
+
+    <abp-button iconClass="fa fa-check" buttonType="submit" formName="transaction">
+      {{ 'AbpUi::Save' | abpLocalization }}
+    </abp-button>
+  </ng-template>
+</abp-modal>

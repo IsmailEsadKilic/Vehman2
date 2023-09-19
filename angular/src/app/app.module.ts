@@ -30,6 +30,7 @@ import { CAR_MODELS_CAR_MODEL_ROUTE_PROVIDER } from './car-models/car-model/prov
 import { BRANDS_BRAND_ROUTE_PROVIDER } from './brands/brand/providers/brand-route.provider';
 import { COMPANIES_COMPANY_ROUTE_PROVIDER } from './companies/company/providers/company-route.provider';
 import { VEHICLES_VEHICLE_ROUTE_PROVIDER } from './vehicles/vehicle/providers/vehicle-route.provider';
+import { TRANSACTIONS_TRANSACTION_ROUTE_PROVIDER } from './transactions/transaction/providers/transaction-route.provider';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -79,6 +80,7 @@ import { VEHICLES_VEHICLE_ROUTE_PROVIDER } from './vehicles/vehicle/providers/ve
     BRANDS_BRAND_ROUTE_PROVIDER,
     COMPANIES_COMPANY_ROUTE_PROVIDER,
     VEHICLES_VEHICLE_ROUTE_PROVIDER,
+    TRANSACTIONS_TRANSACTION_ROUTE_PROVIDER,
   ],
   bootstrap: [AppComponent],
 })

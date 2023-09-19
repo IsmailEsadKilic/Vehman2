@@ -46,6 +46,11 @@ public class Vehman2PermissionDefinitionProvider : PermissionDefinitionProvider
         vehiclePermission.AddChild(Vehman2Permissions.Vehicles.Create, L("Permission:Create"));
         vehiclePermission.AddChild(Vehman2Permissions.Vehicles.Edit, L("Permission:Edit"));
         vehiclePermission.AddChild(Vehman2Permissions.Vehicles.Delete, L("Permission:Delete"));
+
+        var transactionPermission = myGroup.AddPermission(Vehman2Permissions.Transactions.Default, L("Permission:Transactions"));
+        transactionPermission.AddChild(Vehman2Permissions.Transactions.Create, L("Permission:Create"));
+        transactionPermission.AddChild(Vehman2Permissions.Transactions.Edit, L("Permission:Edit"));
+        transactionPermission.AddChild(Vehman2Permissions.Transactions.Delete, L("Permission:Delete"));
     }
 
     private static LocalizableString L(string name)

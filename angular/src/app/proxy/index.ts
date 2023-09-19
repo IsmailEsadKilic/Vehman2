@@ -4,5 +4,6 @@ import * as Companies from './companies';
 import * as Fuels from './fuels';
 import * as Owners from './owners';
 import * as Shared from './shared';
+import * as Transactions from './transactions';
 import * as Vehicles from './vehicles';
-export { Brands, CarModels, Companies, Fuels, Owners, Shared, Vehicles };
+export { Brands, CarModels, Companies, Fuels, Owners, Shared, Transactions, Vehicles };
