@@ -6,7 +6,7 @@
   "DatabaseTableName": "Transactions",
   "Namespace": "Transactions",
   "BaseClass": "FullAuditedAggregateRoot",
-  "MenuIcon": "exchange",
+  "MenuIcon": "exchange-alt",
   "PrimaryKeyType": "Guid",
   "IsMultiTenant": false,
   "CheckConcurrency": true,

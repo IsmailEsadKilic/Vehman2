@@ -236,7 +236,7 @@
             </div>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="{{ '::Price' | abpLocalization }}" prop="transaction.price">
+        <ngx-datatable-column name="{{'FIYAT'}}" prop="transaction.price">
           <ng-template let-row="row" ngx-datatable-cell-template>
             {{ row.transaction.price }}
           </ng-template>

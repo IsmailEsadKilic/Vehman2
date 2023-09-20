@@ -10,7 +10,7 @@ function configureRoutes(routes: RoutesService) {
     routes.add([
       {
         path: '/transactions',
-        iconClass: 'fas fa-exchange',
+        iconClass: 'fas fa-exchange-alt',
         name: '::Menu:Transactions',
         layout: eLayoutType.application,
         requiredPolicy: 'Vehman2.Transactions',

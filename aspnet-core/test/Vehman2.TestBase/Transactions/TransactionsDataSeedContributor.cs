@@ -33,19 +33,19 @@ namespace Vehman2.Transactions
 
             await _transactionRepository.InsertAsync(new Transaction
             (
-                id: Guid.Parse("d66e9f6f-c594-47ce-9144-7f6c5363cfa2"),
-                price: 813024,
-                liters: 358831,
-                date: new DateTime(2021, 6, 10),
+                id: Guid.Parse("42d7b168-8467-4c7b-bcc5-651634ce7a9c"),
+                price: 871570,
+                liters: 348178,
+                date: new DateTime(2016, 3, 19),
                 vehicleId: Guid.Parse("bdfca121-2bcf-4cdc-9116-a4894c50f597")
             ));
 
             await _transactionRepository.InsertAsync(new Transaction
             (
-                id: Guid.Parse("5dc5f042-b71c-4513-ab6d-20cc304462b7"),
-                price: 908055,
-                liters: 461152,
-                date: new DateTime(2021, 2, 12),
+                id: Guid.Parse("34920604-ed6e-4ade-8295-d521fe26b082"),
+                price: 25572,
+                liters: 658724,
+                date: new DateTime(2018, 9, 15),
                 vehicleId: Guid.Parse("bdfca121-2bcf-4cdc-9116-a4894c50f597")
             ));
 

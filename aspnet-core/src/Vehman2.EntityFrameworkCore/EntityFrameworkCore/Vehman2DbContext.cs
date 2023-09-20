@@ -182,6 +182,14 @@ public class Vehman2DbContext :
         }
         if (builder.IsHostDatabase())
         {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
             builder.Entity<Transaction>(b =>
 {
     b.ToTable(Vehman2Consts.DbTablePrefix + "Transactions", Vehman2Consts.DbSchema);

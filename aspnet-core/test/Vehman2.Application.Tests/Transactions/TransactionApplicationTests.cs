@@ -27,19 +27,19 @@ namespace Vehman2.Transactions
             // Assert
             result.TotalCount.ShouldBe(2);
             result.Items.Count.ShouldBe(2);
-            result.Items.Any(x => x.Transaction.Id == Guid.Parse("d66e9f6f-c594-47ce-9144-7f6c5363cfa2")).ShouldBe(true);
-            result.Items.Any(x => x.Transaction.Id == Guid.Parse("5dc5f042-b71c-4513-ab6d-20cc304462b7")).ShouldBe(true);
+            result.Items.Any(x => x.Transaction.Id == Guid.Parse("42d7b168-8467-4c7b-bcc5-651634ce7a9c")).ShouldBe(true);
+            result.Items.Any(x => x.Transaction.Id == Guid.Parse("34920604-ed6e-4ade-8295-d521fe26b082")).ShouldBe(true);
         }
 
         [Fact]
         public async Task GetAsync()
         {
             // Act
-            var result = await _transactionsAppService.GetAsync(Guid.Parse("d66e9f6f-c594-47ce-9144-7f6c5363cfa2"));
+            var result = await _transactionsAppService.GetAsync(Guid.Parse("42d7b168-8467-4c7b-bcc5-651634ce7a9c"));
 
             // Assert
             result.ShouldNotBeNull();
-            result.Id.ShouldBe(Guid.Parse("d66e9f6f-c594-47ce-9144-7f6c5363cfa2"));
+            result.Id.ShouldBe(Guid.Parse("42d7b168-8467-4c7b-bcc5-651634ce7a9c"));
         }
 
         [Fact]
@@ -48,9 +48,9 @@ namespace Vehman2.Transactions
             // Arrange
             var input = new TransactionCreateDto
             {
-                Price = 388997,
-                Liters = 708071,
-                Date = new DateTime(2013, 2, 8),
+                Price = 203573,
+                Liters = 107583,
+                Date = new DateTime(2008, 8, 18),
                 VehicleId = Guid.Parse("bdfca121-2bcf-4cdc-9116-a4894c50f597")
             };
 
@@ -61,9 +61,9 @@ namespace Vehman2.Transactions
             var result = await _transactionRepository.FindAsync(c => c.Id == serviceResult.Id);
 
             result.ShouldNotBe(null);
-            result.Price.ShouldBe(388997);
-            result.Liters.ShouldBe(708071);
-            result.Date.ShouldBe(new DateTime(2013, 2, 8));
+            result.Price.ShouldBe(203573);
+            result.Liters.ShouldBe(107583);
+            result.Date.ShouldBe(new DateTime(2008, 8, 18));
         }
 
         [Fact]
@@ -72,32 +72,32 @@ namespace Vehman2.Transactions
             // Arrange
             var input = new TransactionUpdateDto()
             {
-                Price = 394658,
-                Liters = 34063,
-                Date = new DateTime(2003, 5, 27),
+                Price = 468360,
+                Liters = 785823,
+                Date = new DateTime(2016, 1, 25),
                 VehicleId = Guid.Parse("bdfca121-2bcf-4cdc-9116-a4894c50f597")
             };
 
             // Act
-            var serviceResult = await _transactionsAppService.UpdateAsync(Guid.Parse("d66e9f6f-c594-47ce-9144-7f6c5363cfa2"), input);
+            var serviceResult = await _transactionsAppService.UpdateAsync(Guid.Parse("42d7b168-8467-4c7b-bcc5-651634ce7a9c"), input);
 
             // Assert
             var result = await _transactionRepository.FindAsync(c => c.Id == serviceResult.Id);
 
             result.ShouldNotBe(null);
-            result.Price.ShouldBe(394658);
-            result.Liters.ShouldBe(34063);
-            result.Date.ShouldBe(new DateTime(2003, 5, 27));
+            result.Price.ShouldBe(468360);
+            result.Liters.ShouldBe(785823);
+            result.Date.ShouldBe(new DateTime(2016, 1, 25));
         }
 
         [Fact]
         public async Task DeleteAsync()
         {
             // Act
-            await _transactionsAppService.DeleteAsync(Guid.Parse("d66e9f6f-c594-47ce-9144-7f6c5363cfa2"));
+            await _transactionsAppService.DeleteAsync(Guid.Parse("42d7b168-8467-4c7b-bcc5-651634ce7a9c"));
 
             // Assert
-            var result = await _transactionRepository.FindAsync(c => c.Id == Guid.Parse("d66e9f6f-c594-47ce-9144-7f6c5363cfa2"));
+            var result = await _transactionRepository.FindAsync(c => c.Id == Guid.Parse("42d7b168-8467-4c7b-bcc5-651634ce7a9c"));
 
             result.ShouldBeNull();
         }
