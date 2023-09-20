@@ -1,0 +1,96 @@
+<!-- <p *ngIf="false">Kolonları seçin (1 den başlayarak)</p> -->
+<!-- <div class="d-flex" *ngIf="false">
+    <strong>EXCEL dosyasını import et</strong>
+    <p>Dosyada tarih belirtilmemişse burada belirtin. hiçbir tarih belirtilmezse bugün olarak kaydedilecektir. (Bütün alımlara uygulanır.)</p>
+    <input type="text" placeholder="Datepicker" class="form-control" style="width: min-content;" bsDatepicker [maxDate]="maxDate" [bsConfig]="bsConfig" [(ngModel)]="time" name="time">
+    <div class="ms-1 mb-1">
+        <label for="platerow" class="form-label">Plaka</label>
+        <input type="number" class="form-control" id="platerow" placeholder="Plaka" style="width: min-content;" [(ngModel)]="platerow" name="platerow">
+    </div>
+    <div class="ms-1 mb-1">
+        <label for="pricerow" class="form-label">Tutar</label>
+        <input type="number" class="form-control" id="pricerow" placeholder="Tutar" style="width: min-content;" [(ngModel)]="pricerow" name="pricerow"> 
+    </div>
+</div>
+<div class="d-flex" *ngIf="false">
+    <div class="ms-1 mb-1">
+        <label for="daterow" class="form-label">Tarih (yoksa 0)</label>
+        <input type="number" class="form-control" id="daterow" placeholder="Tarih" style="width: min-content;" [(ngModel)]="daterow" name="daterow">
+    </div>
+    <div class="ms-1 mb-1">
+        <label for="litersrow" class="form-label">Hacim (litre) yoksa 0</label>
+        <input type="number" class="form-control" id="litersrow" placeholder="Hacim" style="width: min-content;" [(ngModel)]="litersrow" name="litersrow">
+    </div>
+</div> -->
+
+<!-- <h1>work dammit</h1> -->
+
+<app-vehicle-add></app-veh-add>
+
+<h1>Excel Dosyasını Import Et</h1>
+<p>Dosyada tarih belirtilmemişse burada belirtin. hiçbir tarih belirtilmezse bugün olarak kaydedilecektir. (Bütün alımlara uygulanır.)</p>
+<input type="text" placeholder="Datepicker" class="form-control" style="width: min-content;" bsDatepicker [maxDate]="maxDate" [bsConfig]="bsConfig" [(ngModel)]="time" name="time">
+<hr>
+<input type="file" id="import" #fileInput class="custom-file-input-button" (change)="onFileChange($event)">
+<button (click)="excelImport()" class="btn btn-primary mx-2">Alımları Ekle</button>
+<button (click)="getExample()" class="btn btn-info">Örnek Dosya</button>
+<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="dialog-static-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-static-name" class="modal-title pull-left">Araç Ekle</h4>
+        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="staticModal.hide()">
+          <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <strong>{{unknownVehPlate}} bulunamadı. eklemek istiyor musunuz?</strong>
+        <app-vehicle-add *ngIf="vehAdd" [plate]="unknownVehPlate"></app-vehicle-add>
+        <button class="btn btn-danger ms-2" (click)="staticModal.hide()">İptal</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" bsModal #confirmModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="dialog-static-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-static-name" class="modal-title pull-left">Alım Atla?</h4>
+        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="confirmModal.hide()">
+          <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <strong>Bu alım zaten var. atlamak istiyor musunuz?</strong>
+        <hr>
+
+        <table *ngIf="skipT.plate" class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Plaka</th>
+                <th scope="col">Yakıt Tipi</th>
+                <th scope="col">Alım Tarihi</th>
+                <th scope="col">Alım Tutarı</th>
+                <th scope="col">Alım Hacmi (litre)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{skipT.plate}}</td>
+                <td>{{skipT.fuelType.name}}</td>
+                <td>{{skipT.date}}</td>
+                <td>{{skipT.price}}</td>
+                <td>{{skipT.liters}}</td>
+              </tr>
+            </tbody>
+        </table>
+        <hr>
+        <button class="btn btn-success ms-2" (click)="skipF()">Atla</button>
+        <button class="btn btn-danger ms-2" (click)="confirmModal.hide()">İptal</button>
+      </div>
+    </div>
+  </div>
+</div>

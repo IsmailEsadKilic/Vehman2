@@ -27,19 +27,19 @@ namespace Vehman2.Fuels
             // Assert
             result.TotalCount.ShouldBe(2);
             result.Items.Count.ShouldBe(2);
-            result.Items.Any(x => x.Id == Guid.Parse("4cf1df83-e073-4c7a-bfbc-2284e4efd7e2")).ShouldBe(true);
-            result.Items.Any(x => x.Id == Guid.Parse("5fea84d6-e497-4ed0-80a4-299e6418b72b")).ShouldBe(true);
+            result.Items.Any(x => x.Id == Guid.Parse("46f73d6e-832d-47dd-968c-9d461ca65e5f")).ShouldBe(true);
+            result.Items.Any(x => x.Id == Guid.Parse("6f650f09-c5e3-468d-a7af-75d645a2c4c6")).ShouldBe(true);
         }
 
         [Fact]
         public async Task GetAsync()
         {
             // Act
-            var result = await _fuelsAppService.GetAsync(Guid.Parse("4cf1df83-e073-4c7a-bfbc-2284e4efd7e2"));
+            var result = await _fuelsAppService.GetAsync(Guid.Parse("46f73d6e-832d-47dd-968c-9d461ca65e5f"));
 
             // Assert
             result.ShouldNotBeNull();
-            result.Id.ShouldBe(Guid.Parse("4cf1df83-e073-4c7a-bfbc-2284e4efd7e2"));
+            result.Id.ShouldBe(Guid.Parse("46f73d6e-832d-47dd-968c-9d461ca65e5f"));
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace Vehman2.Fuels
             // Arrange
             var input = new FuelCreateDto
             {
-                Name = "c2cc0e57a46747d98f3875ef10dfbe175fc67eaa4e8e4c1993387f24e63238825d"
+                Name = "245802f6d"
             };
 
             // Act
@@ -58,7 +58,7 @@ namespace Vehman2.Fuels
             var result = await _fuelRepository.FindAsync(c => c.Id == serviceResult.Id);
 
             result.ShouldNotBe(null);
-            result.Name.ShouldBe("c2cc0e57a46747d98f3875ef10dfbe175fc67eaa4e8e4c1993387f24e63238825d");
+            result.Name.ShouldBe("245802f6d");
         }
 
         [Fact]
@@ -67,27 +67,27 @@ namespace Vehman2.Fuels
             // Arrange
             var input = new FuelUpdateDto()
             {
-                Name = "0b1925364"
+                Name = "d0d5c2d2e9a54016ad7486b862b5c71e3c7dc815755c4a1e"
             };
 
             // Act
-            var serviceResult = await _fuelsAppService.UpdateAsync(Guid.Parse("4cf1df83-e073-4c7a-bfbc-2284e4efd7e2"), input);
+            var serviceResult = await _fuelsAppService.UpdateAsync(Guid.Parse("46f73d6e-832d-47dd-968c-9d461ca65e5f"), input);
 
             // Assert
             var result = await _fuelRepository.FindAsync(c => c.Id == serviceResult.Id);
 
             result.ShouldNotBe(null);
-            result.Name.ShouldBe("0b1925364");
+            result.Name.ShouldBe("d0d5c2d2e9a54016ad7486b862b5c71e3c7dc815755c4a1e");
         }
 
         [Fact]
         public async Task DeleteAsync()
         {
             // Act
-            await _fuelsAppService.DeleteAsync(Guid.Parse("4cf1df83-e073-4c7a-bfbc-2284e4efd7e2"));
+            await _fuelsAppService.DeleteAsync(Guid.Parse("46f73d6e-832d-47dd-968c-9d461ca65e5f"));
 
             // Assert
-            var result = await _fuelRepository.FindAsync(c => c.Id == Guid.Parse("4cf1df83-e073-4c7a-bfbc-2284e4efd7e2"));
+            var result = await _fuelRepository.FindAsync(c => c.Id == Guid.Parse("46f73d6e-832d-47dd-968c-9d461ca65e5f"));
 
             result.ShouldBeNull();
         }

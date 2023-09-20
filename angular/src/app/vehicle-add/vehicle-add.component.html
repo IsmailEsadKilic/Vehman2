@@ -1,0 +1,62 @@
+<form class="row">
+    <div style="width: min-content;" class="ms-1 mb-1">
+        <label for="Plate" class="form-label">Plaka (12ABC345)</label>
+        <input type="text" class="form-control" id="Plate" placeholder="Plate" style="width: min-content;"
+            [(ngModel)]="vehicleAdd.plate" name="vehicleAdd.plate" [disabled]="plate != ''" >
+    </div>
+    <div style="width: min-content;" class="ms-1 mb-1">
+        <label for="Brand" class="form-label">Marka</label>
+        <select class="form-select" style="width: min-content;" id="Brand"
+            [(ngModel)]="vehicleAdd.brandId" name="vehicleAdd.brandId"
+            (change)="onBrandSelectionChange()">   
+            <option value="{{'0'}}" disabled selected>Marka Seç</option>
+            <option *ngFor="let brand of brands" value="{{brand.id}}">{{brand.name}}</option>
+        </select>
+    </div>
+    <div *ngIf="models.length > 0" style="width: min-content;" class="ms-1 mb-1">
+        <label for="Model" class="form-label">Model</label>
+        <select class="form-select" style="width: min-content;" id="Model"
+            [(ngModel)]="vehicleAdd.carModelId" name="vehicleAdd.carModelId"
+            >   
+            <option value="{{'0'}}" disabled selected>Model Seç</option>
+            <option *ngFor="let model of models" value="{{model.id}}">{{model.name}}</option>
+        </select>
+    </div>
+    <div style="width: min-content;" class="ms-1 mb-1">
+        <label for="Company" class="form-label">Şirket</label>
+        <select class="form-select" style="width: min-content;" id="Company"
+            [(ngModel)]="vehicleAdd.companyId" name="vehicleAdd.companyId"
+            (change)="onCompanySelectionChange()">   
+            <option value="{{'0'}}" disabled selected>Şirket Seç</option>
+            <option *ngFor="let company of companies" value="{{company.id}}">{{company.name}}</option>
+        </select>
+    </div>
+    <div *ngIf="owners.length > 0" style="width: min-content;" class="ms-1 mb-1">
+        <label for="Owner" class="form-label">Sahip</label>
+        <select class="form-select" style="width: min-content;" id="Owner"
+            [(ngModel)]="vehicleAdd.ownerId" name="vehicleAdd.ownerId"
+            >   
+            <option value="{{'0'}}" disabled selected>Sahip Seç</option>
+            <option *ngFor="let owner of owners" value="{{owner.id}}">{{owner.name}}</option>
+        </select>
+    </div>
+    <div style="width: min-content;" class="ms-1 mb-1">
+        <label for="FuelType" class="form-label">Yakıt tipi</label>
+        <select class="form-select" style="width: min-content;" id="FuelType"
+            [(ngModel)]="vehicleAdd.fuelId" name="vehicleAdd.fuelTypeId"
+            >   
+            <option value="{{'0'}}" disabled selected>Yakıt Tipi Seç</option>
+            <option *ngFor="let fuelType of fuelTypes" value="{{fuelType.id}}">{{fuelType.name}}</option>
+        </select>
+    </div>
+    <div *ngIf="vehicleAdd.fuelId && vehicleAdd.ownerId && vehicleAdd.companyId &&
+        vehicleAdd.carModelId && vehicleAdd.brandId && vehicleAdd.plate" style="width: min-content;" class="ms-1 mb-1">
+            <label>Ekle</label>
+            <button
+                (click)="addVehicle()"
+                class="btn btn-success mt-2"
+                style="width: min-content; height: min-content;">
+                    Ekle
+            </button>
+    </div>
+</form>

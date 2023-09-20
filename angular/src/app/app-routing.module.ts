@@ -91,6 +91,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./transactions/transaction/transaction.module').then(m => m.TransactionModule),
   },
+  {
+    path: 'excel-import',
+    loadChildren: () =>
+      import('./excel-import/excel-import.module').then(m => m.ExcelImportModule),
+  },
 ];
 
 @NgModule({

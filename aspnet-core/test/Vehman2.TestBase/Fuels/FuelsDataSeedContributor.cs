@@ -29,14 +29,14 @@ namespace Vehman2.Fuels
 
             await _fuelRepository.InsertAsync(new Fuel
             (
-                id: Guid.Parse("4cf1df83-e073-4c7a-bfbc-2284e4efd7e2"),
-                name: "fab6745bbdee4765aa2b0bc84ce690c"
+                id: Guid.Parse("46f73d6e-832d-47dd-968c-9d461ca65e5f"),
+                name: "5975813c04984e0bb22b0a49ebaac8d3cf64f77c41aa4d71accc0ddbb68"
             ));
 
             await _fuelRepository.InsertAsync(new Fuel
             (
-                id: Guid.Parse("5fea84d6-e497-4ed0-80a4-299e6418b72b"),
-                name: "18a87aca9723476f91f3d1c5837ce20ada93bed641d3446892f7ee13d9dc9b9b01fd0a9233344288b082b7a122ea50c58"
+                id: Guid.Parse("6f650f09-c5e3-468d-a7af-75d645a2c4c6"),
+                name: "4e2fb80ac8504707b81dbf6a666e66d4be0ded20b40340f59dcf11e1155c12ae"
             ));
 
             await _unitOfWorkManager.Current.SaveChangesAsync();

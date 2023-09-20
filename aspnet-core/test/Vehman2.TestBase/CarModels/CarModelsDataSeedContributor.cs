@@ -33,16 +33,16 @@ namespace Vehman2.CarModels
 
             await _carModelRepository.InsertAsync(new CarModel
             (
-                id: Guid.Parse("dbd9c0c9-b0db-45de-ae1e-9c7e10adb8e0"),
-                name: "81a45372c2044137ac4c69d5df8e31116868ea8c248f4abea3201e98f3",
-                brandId: Guid.Parse("565f707e-f160-401e-982c-b479e72458db")
+                id: Guid.Parse("250eeac5-f0cf-4aa2-a5ef-600e40478d99"),
+                name: "77633a6d115544dbb7bcaec13f7a072e7118",
+                brandId: Guid.Parse("3fc80ffa-3435-464d-b377-00b043fa4b6f")
             ));
 
             await _carModelRepository.InsertAsync(new CarModel
             (
-                id: Guid.Parse("f9ab1ea0-e03a-4b5c-ae83-78026fd85370"),
-                name: "c21033367ff5430ea2e09d4f473f6c0e4023fc516de4492fb",
-                brandId: Guid.Parse("565f707e-f160-401e-982c-b479e72458db")
+                id: Guid.Parse("fdad0062-3a74-45a7-96c7-7f9e7312d32f"),
+                name: "1c5b45bac7f3476ab2c54fdf68f7c0b92aaf895a34b54244a20885fd24189929a0bc4d1f04da40d8ad7ae263",
+                brandId: Guid.Parse("3fc80ffa-3435-464d-b377-00b043fa4b6f")
             ));
 
             await _unitOfWorkManager.Current.SaveChangesAsync();

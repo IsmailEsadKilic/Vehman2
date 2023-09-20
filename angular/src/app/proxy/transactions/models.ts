@@ -17,6 +17,16 @@ export interface TransactionCreateDto {
   liters?: number;
   date?: string;
   vehicleId: string;
+  plate?: string;
+}
+
+export interface Transaction {
+  price: number;
+  liters?: number;
+  date?: string;
+  vehicleId: string;
+  companyName?: string;
+  plate?: string;
 }
 
 export interface TransactionDto extends FullAuditedEntityDto<string> {
@@ -24,6 +34,7 @@ export interface TransactionDto extends FullAuditedEntityDto<string> {
   liters?: number;
   date?: string;
   vehicleId: string;
+  companyName?: string;
   concurrencyStamp?: string;
 }
 

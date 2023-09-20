@@ -33,16 +33,16 @@ namespace Vehman2.Owners
 
             await _ownerRepository.InsertAsync(new Owner
             (
-                id: Guid.Parse("9107552d-e084-473e-ba34-f674f8509e9b"),
-                name: "28db860b95634be8b0d6cb99327908e3c9c0585b04844469aa70d1c847b872283c928e20603447629",
-                companyId: Guid.Parse("4c1ffebb-1f01-4052-aabe-d2406b44aaf1")
+                id: Guid.Parse("3d73a488-c5cb-4921-b477-00248e97f36a"),
+                name: "7deff88ab28f4bcc94e48ae36b49bf4",
+                companyId: Guid.Parse("7f1e47d3-0d94-45e1-8cf7-794286df8526")
             ));
 
             await _ownerRepository.InsertAsync(new Owner
             (
-                id: Guid.Parse("a48e770b-d759-4487-ab3f-29f6002c9775"),
-                name: "fe5004b7",
-                companyId: Guid.Parse("4c1ffebb-1f01-4052-aabe-d2406b44aaf1")
+                id: Guid.Parse("1016182a-5752-4509-9c5f-47c4afece02b"),
+                name: "6be0de4714c347169af0e18259e4106cb9302ffcb07c46528d8f060827faea398595817be0194ae3afd9bb9a96555735c1",
+                companyId: Guid.Parse("7f1e47d3-0d94-45e1-8cf7-794286df8526")
             ));
 
             await _unitOfWorkManager.Current.SaveChangesAsync();

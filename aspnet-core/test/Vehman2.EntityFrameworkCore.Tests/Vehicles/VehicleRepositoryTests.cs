@@ -25,13 +25,13 @@ namespace Vehman2.Vehicles
             {
                 // Act
                 var result = await _vehicleRepository.GetListAsync(
-                    plate: "a0c41cd"
+                    plate: "00dbbc283cbe463eb96e628c99dcccc1fad28c0b98574d7ebe5bafe66a1f814402e74049a3534aeba865d4d378b933b8"
                 );
 
                 // Assert
                 result.Count.ShouldBe(1);
                 result.FirstOrDefault().ShouldNotBe(null);
-                result.First().Id.ShouldBe(Guid.Parse("bdfca121-2bcf-4cdc-9116-a4894c50f597"));
+                result.First().Id.ShouldBe(Guid.Parse("96aa94b2-72ce-477b-8d2c-2fbe3f2c0f80"));
             });
         }
 
@@ -43,7 +43,7 @@ namespace Vehman2.Vehicles
             {
                 // Act
                 var result = await _vehicleRepository.GetCountAsync(
-                    plate: "15827011a8a04fdbac080b902191c05998cb92d77ec3404989cfc3bf74b4afb1cd342cf3f1684ebf9f6a"
+                    plate: "cd29f5cdfc2640c28592"
                 );
 
                 // Assert

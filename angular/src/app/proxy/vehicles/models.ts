@@ -16,6 +16,8 @@ export interface VehicleCreateDto {
   carModelId: string;
   fuelId: string;
   ownerId: string;
+  brandId?: string;
+  companyId?: string;
 }
 
 export interface VehicleDto extends FullAuditedEntityDto<string> {

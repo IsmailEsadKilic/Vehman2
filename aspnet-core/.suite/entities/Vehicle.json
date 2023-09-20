@@ -18,7 +18,7 @@
   "CreateTests": true,
   "Properties": [
     {
-      "Id": "2cf06298-3ce7-44f5-bfcb-b3452c3c106f",
+      "Id": "95555eca-1d7a-4190-aeae-7f7228da8ae2",
       "Name": "Plate",
       "Type": "string",
       "EnumType": "",
@@ -28,7 +28,7 @@
       "DefaultValue": null,
       "IsNullable": false,
       "IsRequired": true,
-      "IsTextArea": true,
+      "IsTextArea": false,
       "MinLength": null,
       "MaxLength": null,
       "SortOrder": 0,

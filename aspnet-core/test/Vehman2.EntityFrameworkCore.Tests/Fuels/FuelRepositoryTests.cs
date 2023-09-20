@@ -25,13 +25,13 @@ namespace Vehman2.Fuels
             {
                 // Act
                 var result = await _fuelRepository.GetListAsync(
-                    name: "fab6745bbdee4765aa2b0bc84ce690c"
+                    name: "5975813c04984e0bb22b0a49ebaac8d3cf64f77c41aa4d71accc0ddbb68"
                 );
 
                 // Assert
                 result.Count.ShouldBe(1);
                 result.FirstOrDefault().ShouldNotBe(null);
-                result.First().Id.ShouldBe(Guid.Parse("4cf1df83-e073-4c7a-bfbc-2284e4efd7e2"));
+                result.First().Id.ShouldBe(Guid.Parse("46f73d6e-832d-47dd-968c-9d461ca65e5f"));
             });
         }
 
@@ -43,7 +43,7 @@ namespace Vehman2.Fuels
             {
                 // Act
                 var result = await _fuelRepository.GetCountAsync(
-                    name: "18a87aca9723476f91f3d1c5837ce20ada93bed641d3446892f7ee13d9dc9b9b01fd0a9233344288b082b7a122ea50c58"
+                    name: "4e2fb80ac8504707b81dbf6a666e66d4be0ded20b40340f59dcf11e1155c12ae"
                 );
 
                 // Assert

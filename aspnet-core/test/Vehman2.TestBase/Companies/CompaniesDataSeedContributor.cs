@@ -29,14 +29,14 @@ namespace Vehman2.Companies
 
             await _companyRepository.InsertAsync(new Company
             (
-                id: Guid.Parse("4c1ffebb-1f01-4052-aabe-d2406b44aaf1"),
-                name: "0146d277bb624639b65b8c0719eebdf42640620ebd5f4c63baab5708bec64e0a38cdf47e96f64b70a8510458eba"
+                id: Guid.Parse("7f1e47d3-0d94-45e1-8cf7-794286df8526"),
+                name: "cf726c853870419a90e7501f38b0e79aa72aafb0d951477da6e"
             ));
 
             await _companyRepository.InsertAsync(new Company
             (
-                id: Guid.Parse("91d7dff0-1d58-44b2-a06e-2f3d981284c5"),
-                name: "61733f4e7b504e8aa608edfc4bde905a5690e265174e48a6b92470944206d52f3"
+                id: Guid.Parse("96407a81-8d2c-42c5-8072-ca35461a2be8"),
+                name: "6f42d4b18c6d49fbabc198f9d12a24bf6a6cb006c7"
             ));
 
             await _unitOfWorkManager.Current.SaveChangesAsync();

@@ -27,19 +27,19 @@ namespace Vehman2.Brands
             // Assert
             result.TotalCount.ShouldBe(2);
             result.Items.Count.ShouldBe(2);
-            result.Items.Any(x => x.Id == Guid.Parse("565f707e-f160-401e-982c-b479e72458db")).ShouldBe(true);
-            result.Items.Any(x => x.Id == Guid.Parse("7a2d1d6b-ecce-4403-8223-19256c59cdb4")).ShouldBe(true);
+            result.Items.Any(x => x.Id == Guid.Parse("3fc80ffa-3435-464d-b377-00b043fa4b6f")).ShouldBe(true);
+            result.Items.Any(x => x.Id == Guid.Parse("d5186959-9314-4ed4-9a06-4d005a619bbc")).ShouldBe(true);
         }
 
         [Fact]
         public async Task GetAsync()
         {
             // Act
-            var result = await _brandsAppService.GetAsync(Guid.Parse("565f707e-f160-401e-982c-b479e72458db"));
+            var result = await _brandsAppService.GetAsync(Guid.Parse("3fc80ffa-3435-464d-b377-00b043fa4b6f"));
 
             // Assert
             result.ShouldNotBeNull();
-            result.Id.ShouldBe(Guid.Parse("565f707e-f160-401e-982c-b479e72458db"));
+            result.Id.ShouldBe(Guid.Parse("3fc80ffa-3435-464d-b377-00b043fa4b6f"));
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace Vehman2.Brands
             // Arrange
             var input = new BrandCreateDto
             {
-                Name = "98b29aa0ecad46ef8ba6bad220d7a308e4f71c7725fa4ef38b35a907c57ce6ac83217d61acd84bc58ba3a0387965"
+                Name = "02119b6d7955432c82df16c28917af80330722f9e6b548ce8086a1f07a"
             };
 
             // Act
@@ -58,7 +58,7 @@ namespace Vehman2.Brands
             var result = await _brandRepository.FindAsync(c => c.Id == serviceResult.Id);
 
             result.ShouldNotBe(null);
-            result.Name.ShouldBe("98b29aa0ecad46ef8ba6bad220d7a308e4f71c7725fa4ef38b35a907c57ce6ac83217d61acd84bc58ba3a0387965");
+            result.Name.ShouldBe("02119b6d7955432c82df16c28917af80330722f9e6b548ce8086a1f07a");
         }
 
         [Fact]
@@ -67,27 +67,27 @@ namespace Vehman2.Brands
             // Arrange
             var input = new BrandUpdateDto()
             {
-                Name = "f02489871be84704bfb42c3ba680c3e5c13000baede04a6bb4f8967427b5"
+                Name = "03fa5feda0f1465aa71616d6ba11"
             };
 
             // Act
-            var serviceResult = await _brandsAppService.UpdateAsync(Guid.Parse("565f707e-f160-401e-982c-b479e72458db"), input);
+            var serviceResult = await _brandsAppService.UpdateAsync(Guid.Parse("3fc80ffa-3435-464d-b377-00b043fa4b6f"), input);
 
             // Assert
             var result = await _brandRepository.FindAsync(c => c.Id == serviceResult.Id);
 
             result.ShouldNotBe(null);
-            result.Name.ShouldBe("f02489871be84704bfb42c3ba680c3e5c13000baede04a6bb4f8967427b5");
+            result.Name.ShouldBe("03fa5feda0f1465aa71616d6ba11");
         }
 
         [Fact]
         public async Task DeleteAsync()
         {
             // Act
-            await _brandsAppService.DeleteAsync(Guid.Parse("565f707e-f160-401e-982c-b479e72458db"));
+            await _brandsAppService.DeleteAsync(Guid.Parse("3fc80ffa-3435-464d-b377-00b043fa4b6f"));
 
             // Assert
-            var result = await _brandRepository.FindAsync(c => c.Id == Guid.Parse("565f707e-f160-401e-982c-b479e72458db"));
+            var result = await _brandRepository.FindAsync(c => c.Id == Guid.Parse("3fc80ffa-3435-464d-b377-00b043fa4b6f"));
 
             result.ShouldBeNull();
         }

@@ -31,12 +31,27 @@ import { BRANDS_BRAND_ROUTE_PROVIDER } from './brands/brand/providers/brand-rout
 import { COMPANIES_COMPANY_ROUTE_PROVIDER } from './companies/company/providers/company-route.provider';
 import { VEHICLES_VEHICLE_ROUTE_PROVIDER } from './vehicles/vehicle/providers/vehicle-route.provider';
 import { TRANSACTIONS_TRANSACTION_ROUTE_PROVIDER } from './transactions/transaction/providers/transaction-route.provider';
+import { ExcelImportComponent } from './excel-import/components/excel-import.component';
+import { EXCEL_IMPORT_ROUTE_PROVIDER } from './excel-import/providers/excel-import-route.provider';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { ToastrModule } from 'ngx-toastr';
+import { VehicleAddComponent } from './vehicle-add/vehicle-add.component';
+
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, VehicleAddComponent],
   imports: [
+    BsDatepickerModule.forRoot(),
+    ModalModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    BsDatepickerModule.forRoot(),
+    ModalModule.forRoot(),
     CoreModule.forRoot({
       environment,
       registerLocaleFn: registerLocale(),
@@ -81,6 +96,7 @@ import { TRANSACTIONS_TRANSACTION_ROUTE_PROVIDER } from './transactions/transact
     COMPANIES_COMPANY_ROUTE_PROVIDER,
     VEHICLES_VEHICLE_ROUTE_PROVIDER,
     TRANSACTIONS_TRANSACTION_ROUTE_PROVIDER,
+    EXCEL_IMPORT_ROUTE_PROVIDER
   ],
   bootstrap: [AppComponent],
 })

@@ -51,7 +51,11 @@ export class TransactionService {
       params: { filterText: input.filterText, priceMin: input.priceMin, priceMax: input.priceMax, litersMin: input.litersMin, litersMax: input.litersMax, dateMin: input.dateMin, dateMax: input.dateMax, vehicleId: input.vehicleId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName,...config });
-  
+
+  getListAll() {
+    let input: GetTransactionsInput = { maxResultCount: 1000 };
+    return this.getList(input);
+  }
 
   getListAsExcelFile = (input: TransactionExcelDownloadDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, Blob>({

@@ -29,14 +29,14 @@ namespace Vehman2.Brands
 
             await _brandRepository.InsertAsync(new Brand
             (
-                id: Guid.Parse("565f707e-f160-401e-982c-b479e72458db"),
-                name: "99c9e928970c"
+                id: Guid.Parse("3fc80ffa-3435-464d-b377-00b043fa4b6f"),
+                name: "4f87a56ff73c485ea7b16af069743fe97347b"
             ));
 
             await _brandRepository.InsertAsync(new Brand
             (
-                id: Guid.Parse("7a2d1d6b-ecce-4403-8223-19256c59cdb4"),
-                name: "16b6febf9e544871ac204e226b5f39e45fd39ab78b27476196e0dec92ebfaf168449f7069c3247afbf0d6e0b84164a299f"
+                id: Guid.Parse("d5186959-9314-4ed4-9a06-4d005a619bbc"),
+                name: "ef777194580547ba852c694821c4e7c4aba51efe0fc54b21a9df69f11b23db0981fc2a65275e49089f1613ee6f7bd894"
             ));
 
             await _unitOfWorkManager.Current.SaveChangesAsync();

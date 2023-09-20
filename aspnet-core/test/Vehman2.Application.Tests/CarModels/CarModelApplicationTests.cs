@@ -27,19 +27,19 @@ namespace Vehman2.CarModels
             // Assert
             result.TotalCount.ShouldBe(2);
             result.Items.Count.ShouldBe(2);
-            result.Items.Any(x => x.CarModel.Id == Guid.Parse("dbd9c0c9-b0db-45de-ae1e-9c7e10adb8e0")).ShouldBe(true);
-            result.Items.Any(x => x.CarModel.Id == Guid.Parse("f9ab1ea0-e03a-4b5c-ae83-78026fd85370")).ShouldBe(true);
+            result.Items.Any(x => x.CarModel.Id == Guid.Parse("250eeac5-f0cf-4aa2-a5ef-600e40478d99")).ShouldBe(true);
+            result.Items.Any(x => x.CarModel.Id == Guid.Parse("fdad0062-3a74-45a7-96c7-7f9e7312d32f")).ShouldBe(true);
         }
 
         [Fact]
         public async Task GetAsync()
         {
             // Act
-            var result = await _carModelsAppService.GetAsync(Guid.Parse("dbd9c0c9-b0db-45de-ae1e-9c7e10adb8e0"));
+            var result = await _carModelsAppService.GetAsync(Guid.Parse("250eeac5-f0cf-4aa2-a5ef-600e40478d99"));
 
             // Assert
             result.ShouldNotBeNull();
-            result.Id.ShouldBe(Guid.Parse("dbd9c0c9-b0db-45de-ae1e-9c7e10adb8e0"));
+            result.Id.ShouldBe(Guid.Parse("250eeac5-f0cf-4aa2-a5ef-600e40478d99"));
         }
 
         [Fact]
@@ -48,8 +48,8 @@ namespace Vehman2.CarModels
             // Arrange
             var input = new CarModelCreateDto
             {
-                Name = "3f2bef",
-                BrandId = Guid.Parse("565f707e-f160-401e-982c-b479e72458db")
+                Name = "45f25397c43847faa880e91961d3ae013aa9a2",
+                BrandId = Guid.Parse("3fc80ffa-3435-464d-b377-00b043fa4b6f")
             };
 
             // Act
@@ -59,7 +59,7 @@ namespace Vehman2.CarModels
             var result = await _carModelRepository.FindAsync(c => c.Id == serviceResult.Id);
 
             result.ShouldNotBe(null);
-            result.Name.ShouldBe("3f2bef");
+            result.Name.ShouldBe("45f25397c43847faa880e91961d3ae013aa9a2");
         }
 
         [Fact]
@@ -68,28 +68,28 @@ namespace Vehman2.CarModels
             // Arrange
             var input = new CarModelUpdateDto()
             {
-                Name = "95f96281a43f4e2ba2b64845fa28c581650",
-                BrandId = Guid.Parse("565f707e-f160-401e-982c-b479e72458db")
+                Name = "9ce0d92b5979427b90cff7a88453b2a3877a7f3c257f430cacdbf9309d28",
+                BrandId = Guid.Parse("3fc80ffa-3435-464d-b377-00b043fa4b6f")
             };
 
             // Act
-            var serviceResult = await _carModelsAppService.UpdateAsync(Guid.Parse("dbd9c0c9-b0db-45de-ae1e-9c7e10adb8e0"), input);
+            var serviceResult = await _carModelsAppService.UpdateAsync(Guid.Parse("250eeac5-f0cf-4aa2-a5ef-600e40478d99"), input);
 
             // Assert
             var result = await _carModelRepository.FindAsync(c => c.Id == serviceResult.Id);
 
             result.ShouldNotBe(null);
-            result.Name.ShouldBe("95f96281a43f4e2ba2b64845fa28c581650");
+            result.Name.ShouldBe("9ce0d92b5979427b90cff7a88453b2a3877a7f3c257f430cacdbf9309d28");
         }
 
         [Fact]
         public async Task DeleteAsync()
         {
             // Act
-            await _carModelsAppService.DeleteAsync(Guid.Parse("dbd9c0c9-b0db-45de-ae1e-9c7e10adb8e0"));
+            await _carModelsAppService.DeleteAsync(Guid.Parse("250eeac5-f0cf-4aa2-a5ef-600e40478d99"));
 
             // Assert
-            var result = await _carModelRepository.FindAsync(c => c.Id == Guid.Parse("dbd9c0c9-b0db-45de-ae1e-9c7e10adb8e0"));
+            var result = await _carModelRepository.FindAsync(c => c.Id == Guid.Parse("250eeac5-f0cf-4aa2-a5ef-600e40478d99"));
 
             result.ShouldBeNull();
         }

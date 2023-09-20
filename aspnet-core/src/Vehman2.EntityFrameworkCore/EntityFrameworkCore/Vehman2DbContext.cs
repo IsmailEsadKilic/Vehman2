@@ -109,11 +109,54 @@ public class Vehman2DbContext :
         //});
         if (builder.IsHostDatabase())
         {
-            builder.Entity<Fuel>(b =>
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+            builder.Entity<Transaction>(b =>
 {
-    b.ToTable(Vehman2Consts.DbTablePrefix + "Fuels", Vehman2Consts.DbSchema);
+    b.ToTable(Vehman2Consts.DbTablePrefix + "Transactions", Vehman2Consts.DbSchema);
     b.ConfigureByConvention();
-    b.Property(x => x.Name).HasColumnName(nameof(Fuel.Name)).IsRequired();
+    b.Property(x => x.Price).HasColumnName(nameof(Transaction.Price)).IsRequired().HasMaxLength((int)TransactionConsts.PriceMaxLength);
+    b.Property(x => x.Liters).HasColumnName(nameof(Transaction.Liters)).HasMaxLength((int)TransactionConsts.LitersMaxLength);
+    b.Property(x => x.Date).HasColumnName(nameof(Transaction.Date));
+    b.HasOne<Vehicle>().WithMany().IsRequired().HasForeignKey(x => x.VehicleId).OnDelete(DeleteBehavior.NoAction);
 });
 
         }
@@ -123,6 +166,15 @@ public class Vehman2DbContext :
         }
         if (builder.IsHostDatabase())
         {
+            builder.Entity<Vehicle>(b =>
+{
+    b.ToTable(Vehman2Consts.DbTablePrefix + "Vehicles", Vehman2Consts.DbSchema);
+    b.ConfigureByConvention();
+    b.Property(x => x.Plate).HasColumnName(nameof(Vehicle.Plate)).IsRequired();
+    b.HasOne<CarModel>().WithMany().IsRequired().HasForeignKey(x => x.CarModelId).OnDelete(DeleteBehavior.NoAction);
+    b.HasOne<Fuel>().WithMany().IsRequired().HasForeignKey(x => x.FuelId).OnDelete(DeleteBehavior.NoAction);
+    b.HasOne<Owner>().WithMany().IsRequired().HasForeignKey(x => x.OwnerId).OnDelete(DeleteBehavior.NoAction);
+});
 
         }
         if (builder.IsHostDatabase())
@@ -158,46 +210,22 @@ public class Vehman2DbContext :
         }
         if (builder.IsHostDatabase())
         {
+            builder.Entity<Fuel>(b =>
+{
+    b.ToTable(Vehman2Consts.DbTablePrefix + "Fuels", Vehman2Consts.DbSchema);
+    b.ConfigureByConvention();
+    b.Property(x => x.Name).HasColumnName(nameof(Fuel.Name)).IsRequired();
+});
+
+        }
+        if (builder.IsHostDatabase())
+        {
             builder.Entity<Owner>(b =>
 {
     b.ToTable(Vehman2Consts.DbTablePrefix + "Owners", Vehman2Consts.DbSchema);
     b.ConfigureByConvention();
     b.Property(x => x.Name).HasColumnName(nameof(Owner.Name)).IsRequired();
     b.HasOne<Company>().WithMany().IsRequired().HasForeignKey(x => x.CompanyId).OnDelete(DeleteBehavior.NoAction);
-});
-
-        }
-        if (builder.IsHostDatabase())
-        {
-            builder.Entity<Vehicle>(b =>
-{
-    b.ToTable(Vehman2Consts.DbTablePrefix + "Vehicles", Vehman2Consts.DbSchema);
-    b.ConfigureByConvention();
-    b.Property(x => x.Plate).HasColumnName(nameof(Vehicle.Plate)).IsRequired();
-    b.HasOne<CarModel>().WithMany().IsRequired().HasForeignKey(x => x.CarModelId).OnDelete(DeleteBehavior.NoAction);
-    b.HasOne<Fuel>().WithMany().IsRequired().HasForeignKey(x => x.FuelId).OnDelete(DeleteBehavior.NoAction);
-    b.HasOne<Owner>().WithMany().IsRequired().HasForeignKey(x => x.OwnerId).OnDelete(DeleteBehavior.NoAction);
-});
-
-        }
-        if (builder.IsHostDatabase())
-        {
-
-        }
-        if (builder.IsHostDatabase())
-        {
-
-        }
-        if (builder.IsHostDatabase())
-        {
-            builder.Entity<Transaction>(b =>
-{
-    b.ToTable(Vehman2Consts.DbTablePrefix + "Transactions", Vehman2Consts.DbSchema);
-    b.ConfigureByConvention();
-    b.Property(x => x.Price).HasColumnName(nameof(Transaction.Price)).IsRequired().HasMaxLength((int)TransactionConsts.PriceMaxLength);
-    b.Property(x => x.Liters).HasColumnName(nameof(Transaction.Liters)).HasMaxLength((int)TransactionConsts.LitersMaxLength);
-    b.Property(x => x.Date).HasColumnName(nameof(Transaction.Date));
-    b.HasOne<Vehicle>().WithMany().IsRequired().HasForeignKey(x => x.VehicleId).OnDelete(DeleteBehavior.NoAction);
 });
 
         }

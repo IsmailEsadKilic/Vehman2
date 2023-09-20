@@ -69,8 +69,12 @@ export class VehicleService {
       params: { filterText: input.filterText, plate: input.plate, carModelId: input.carModelId, fuelId: input.fuelId, ownerId: input.ownerId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName,...config });
-  
 
+  getListAll() {
+    let input: GetVehiclesInput = { maxResultCount: 1000 };
+    return this.getList(input);
+  }
+  
   getListAsExcelFile = (input: VehicleExcelDownloadDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, Blob>({
       method: 'GET',

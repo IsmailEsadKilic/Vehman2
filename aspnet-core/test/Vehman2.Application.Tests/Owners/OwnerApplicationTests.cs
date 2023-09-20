@@ -27,19 +27,19 @@ namespace Vehman2.Owners
             // Assert
             result.TotalCount.ShouldBe(2);
             result.Items.Count.ShouldBe(2);
-            result.Items.Any(x => x.Owner.Id == Guid.Parse("9107552d-e084-473e-ba34-f674f8509e9b")).ShouldBe(true);
-            result.Items.Any(x => x.Owner.Id == Guid.Parse("a48e770b-d759-4487-ab3f-29f6002c9775")).ShouldBe(true);
+            result.Items.Any(x => x.Owner.Id == Guid.Parse("3d73a488-c5cb-4921-b477-00248e97f36a")).ShouldBe(true);
+            result.Items.Any(x => x.Owner.Id == Guid.Parse("1016182a-5752-4509-9c5f-47c4afece02b")).ShouldBe(true);
         }
 
         [Fact]
         public async Task GetAsync()
         {
             // Act
-            var result = await _ownersAppService.GetAsync(Guid.Parse("9107552d-e084-473e-ba34-f674f8509e9b"));
+            var result = await _ownersAppService.GetAsync(Guid.Parse("3d73a488-c5cb-4921-b477-00248e97f36a"));
 
             // Assert
             result.ShouldNotBeNull();
-            result.Id.ShouldBe(Guid.Parse("9107552d-e084-473e-ba34-f674f8509e9b"));
+            result.Id.ShouldBe(Guid.Parse("3d73a488-c5cb-4921-b477-00248e97f36a"));
         }
 
         [Fact]
@@ -48,8 +48,8 @@ namespace Vehman2.Owners
             // Arrange
             var input = new OwnerCreateDto
             {
-                Name = "f50dc4be6cd04c1a969fdfbaafa1fedea85f8a809953405b81",
-                CompanyId = Guid.Parse("4c1ffebb-1f01-4052-aabe-d2406b44aaf1")
+                Name = "ace9e18239094d",
+                CompanyId = Guid.Parse("7f1e47d3-0d94-45e1-8cf7-794286df8526")
             };
 
             // Act
@@ -59,7 +59,7 @@ namespace Vehman2.Owners
             var result = await _ownerRepository.FindAsync(c => c.Id == serviceResult.Id);
 
             result.ShouldNotBe(null);
-            result.Name.ShouldBe("f50dc4be6cd04c1a969fdfbaafa1fedea85f8a809953405b81");
+            result.Name.ShouldBe("ace9e18239094d");
         }
 
         [Fact]
@@ -68,28 +68,28 @@ namespace Vehman2.Owners
             // Arrange
             var input = new OwnerUpdateDto()
             {
-                Name = "2aab28919afe",
-                CompanyId = Guid.Parse("4c1ffebb-1f01-4052-aabe-d2406b44aaf1")
+                Name = "dc1ce05c83fa4b8db493cce1479d6706a95d6b",
+                CompanyId = Guid.Parse("7f1e47d3-0d94-45e1-8cf7-794286df8526")
             };
 
             // Act
-            var serviceResult = await _ownersAppService.UpdateAsync(Guid.Parse("9107552d-e084-473e-ba34-f674f8509e9b"), input);
+            var serviceResult = await _ownersAppService.UpdateAsync(Guid.Parse("3d73a488-c5cb-4921-b477-00248e97f36a"), input);
 
             // Assert
             var result = await _ownerRepository.FindAsync(c => c.Id == serviceResult.Id);
 
             result.ShouldNotBe(null);
-            result.Name.ShouldBe("2aab28919afe");
+            result.Name.ShouldBe("dc1ce05c83fa4b8db493cce1479d6706a95d6b");
         }
 
         [Fact]
         public async Task DeleteAsync()
         {
             // Act
-            await _ownersAppService.DeleteAsync(Guid.Parse("9107552d-e084-473e-ba34-f674f8509e9b"));
+            await _ownersAppService.DeleteAsync(Guid.Parse("3d73a488-c5cb-4921-b477-00248e97f36a"));
 
             // Assert
-            var result = await _ownerRepository.FindAsync(c => c.Id == Guid.Parse("9107552d-e084-473e-ba34-f674f8509e9b"));
+            var result = await _ownerRepository.FindAsync(c => c.Id == Guid.Parse("3d73a488-c5cb-4921-b477-00248e97f36a"));
 
             result.ShouldBeNull();
         }

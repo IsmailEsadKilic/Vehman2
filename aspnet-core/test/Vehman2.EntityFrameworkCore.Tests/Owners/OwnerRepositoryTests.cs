@@ -25,13 +25,13 @@ namespace Vehman2.Owners
             {
                 // Act
                 var result = await _ownerRepository.GetListAsync(
-                    name: "28db860b95634be8b0d6cb99327908e3c9c0585b04844469aa70d1c847b872283c928e20603447629"
+                    name: "7deff88ab28f4bcc94e48ae36b49bf4"
                 );
 
                 // Assert
                 result.Count.ShouldBe(1);
                 result.FirstOrDefault().ShouldNotBe(null);
-                result.First().Id.ShouldBe(Guid.Parse("9107552d-e084-473e-ba34-f674f8509e9b"));
+                result.First().Id.ShouldBe(Guid.Parse("3d73a488-c5cb-4921-b477-00248e97f36a"));
             });
         }
 
@@ -43,7 +43,7 @@ namespace Vehman2.Owners
             {
                 // Act
                 var result = await _ownerRepository.GetCountAsync(
-                    name: "fe5004b7"
+                    name: "6be0de4714c347169af0e18259e4106cb9302ffcb07c46528d8f060827faea398595817be0194ae3afd9bb9a96555735c1"
                 );
 
                 // Assert

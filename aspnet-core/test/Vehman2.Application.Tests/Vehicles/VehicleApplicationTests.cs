@@ -27,19 +27,19 @@ namespace Vehman2.Vehicles
             // Assert
             result.TotalCount.ShouldBe(2);
             result.Items.Count.ShouldBe(2);
-            result.Items.Any(x => x.Vehicle.Id == Guid.Parse("bdfca121-2bcf-4cdc-9116-a4894c50f597")).ShouldBe(true);
-            result.Items.Any(x => x.Vehicle.Id == Guid.Parse("ee1e7303-38b6-440b-8c3a-0a4bbc20b6d4")).ShouldBe(true);
+            result.Items.Any(x => x.Vehicle.Id == Guid.Parse("96aa94b2-72ce-477b-8d2c-2fbe3f2c0f80")).ShouldBe(true);
+            result.Items.Any(x => x.Vehicle.Id == Guid.Parse("56a97d3e-24b6-4a5e-a4bd-4a75a8c32c4f")).ShouldBe(true);
         }
 
         [Fact]
         public async Task GetAsync()
         {
             // Act
-            var result = await _vehiclesAppService.GetAsync(Guid.Parse("bdfca121-2bcf-4cdc-9116-a4894c50f597"));
+            var result = await _vehiclesAppService.GetAsync(Guid.Parse("96aa94b2-72ce-477b-8d2c-2fbe3f2c0f80"));
 
             // Assert
             result.ShouldNotBeNull();
-            result.Id.ShouldBe(Guid.Parse("bdfca121-2bcf-4cdc-9116-a4894c50f597"));
+            result.Id.ShouldBe(Guid.Parse("96aa94b2-72ce-477b-8d2c-2fbe3f2c0f80"));
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace Vehman2.Vehicles
             // Arrange
             var input = new VehicleCreateDto
             {
-                Plate = "f8e3736b7dd34dec84c404846f6e3ecd9f3f58fbb611442499aaba5",
+                Plate = "e85ded7733474c",
                 CarModelId = Guid.Parse("dbd9c0c9-b0db-45de-ae1e-9c7e10adb8e0"),
                 FuelId = Guid.Parse("4cf1df83-e073-4c7a-bfbc-2284e4efd7e2"),
                 OwnerId = Guid.Parse("9107552d-e084-473e-ba34-f674f8509e9b")
@@ -61,7 +61,7 @@ namespace Vehman2.Vehicles
             var result = await _vehicleRepository.FindAsync(c => c.Id == serviceResult.Id);
 
             result.ShouldNotBe(null);
-            result.Plate.ShouldBe("f8e3736b7dd34dec84c404846f6e3ecd9f3f58fbb611442499aaba5");
+            result.Plate.ShouldBe("e85ded7733474c");
         }
 
         [Fact]
@@ -70,30 +70,30 @@ namespace Vehman2.Vehicles
             // Arrange
             var input = new VehicleUpdateDto()
             {
-                Plate = "c3368989a53d472294a2d5728967716ecee315bc56474f4da18197055622d3e88edadacda6784a5eb7b1483c7b0eeaf",
+                Plate = "256c700c8eb84ac48519dab06b37264bfa68",
                 CarModelId = Guid.Parse("dbd9c0c9-b0db-45de-ae1e-9c7e10adb8e0"),
                 FuelId = Guid.Parse("4cf1df83-e073-4c7a-bfbc-2284e4efd7e2"),
                 OwnerId = Guid.Parse("9107552d-e084-473e-ba34-f674f8509e9b")
             };
 
             // Act
-            var serviceResult = await _vehiclesAppService.UpdateAsync(Guid.Parse("bdfca121-2bcf-4cdc-9116-a4894c50f597"), input);
+            var serviceResult = await _vehiclesAppService.UpdateAsync(Guid.Parse("96aa94b2-72ce-477b-8d2c-2fbe3f2c0f80"), input);
 
             // Assert
             var result = await _vehicleRepository.FindAsync(c => c.Id == serviceResult.Id);
 
             result.ShouldNotBe(null);
-            result.Plate.ShouldBe("c3368989a53d472294a2d5728967716ecee315bc56474f4da18197055622d3e88edadacda6784a5eb7b1483c7b0eeaf");
+            result.Plate.ShouldBe("256c700c8eb84ac48519dab06b37264bfa68");
         }
 
         [Fact]
         public async Task DeleteAsync()
         {
             // Act
-            await _vehiclesAppService.DeleteAsync(Guid.Parse("bdfca121-2bcf-4cdc-9116-a4894c50f597"));
+            await _vehiclesAppService.DeleteAsync(Guid.Parse("96aa94b2-72ce-477b-8d2c-2fbe3f2c0f80"));
 
             // Assert
-            var result = await _vehicleRepository.FindAsync(c => c.Id == Guid.Parse("bdfca121-2bcf-4cdc-9116-a4894c50f597"));
+            var result = await _vehicleRepository.FindAsync(c => c.Id == Guid.Parse("96aa94b2-72ce-477b-8d2c-2fbe3f2c0f80"));
 
             result.ShouldBeNull();
         }

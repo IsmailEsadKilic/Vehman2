@@ -52,7 +52,6 @@ export class BrandService {
     },
     { apiName: this.apiName,...config });
   
-
   getListAsExcelFile = (input: BrandExcelDownloadDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, Blob>({
       method: 'GET',

@@ -18,7 +18,7 @@
   "CreateTests": true,
   "Properties": [
     {
-      "Id": "f78a95c4-5fde-4c6e-bca3-c4b50565f279",
+      "Id": "147bc59e-6ee6-4764-be62-abb9be0fdff5",
       "Name": "Name",
       "Type": "string",
       "EnumType": "",
@@ -28,7 +28,7 @@
       "DefaultValue": null,
       "IsNullable": false,
       "IsRequired": true,
-      "IsTextArea": true,
+      "IsTextArea": false,
       "MinLength": null,
       "MaxLength": null,
       "SortOrder": 0,

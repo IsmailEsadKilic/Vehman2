@@ -114,7 +114,7 @@
             </div>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="{{'İSİM'}}" prop="carModel.name">
+        <ngx-datatable-column name="{{ '::Name' | abpLocalization }}" prop="carModel.name">
           <ng-template let-row="row" ngx-datatable-cell-template>
             {{ row.carModel.name }}
           </ng-template>
@@ -145,8 +145,7 @@
             {{ '::Name' | abpLocalization }} *
           </label>
 
-          <textarea id="car-model-name" formControlName="name" class="form-control" autofocus>
-          </textarea>
+          <input id="car-model-name" formControlName="name" class="form-control" autofocus />
         </div>
         <div class="mb-3">
           <label class="form-label" for="car-model-brand-id">

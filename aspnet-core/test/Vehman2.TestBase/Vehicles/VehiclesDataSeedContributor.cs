@@ -41,8 +41,8 @@ namespace Vehman2.Vehicles
 
             await _vehicleRepository.InsertAsync(new Vehicle
             (
-                id: Guid.Parse("bdfca121-2bcf-4cdc-9116-a4894c50f597"),
-                plate: "a0c41cd",
+                id: Guid.Parse("96aa94b2-72ce-477b-8d2c-2fbe3f2c0f80"),
+                plate: "00dbbc283cbe463eb96e628c99dcccc1fad28c0b98574d7ebe5bafe66a1f814402e74049a3534aeba865d4d378b933b8",
                 carModelId: Guid.Parse("dbd9c0c9-b0db-45de-ae1e-9c7e10adb8e0"),
                 fuelId: Guid.Parse("4cf1df83-e073-4c7a-bfbc-2284e4efd7e2"),
                 ownerId: Guid.Parse("9107552d-e084-473e-ba34-f674f8509e9b")
@@ -50,8 +50,8 @@ namespace Vehman2.Vehicles
 
             await _vehicleRepository.InsertAsync(new Vehicle
             (
-                id: Guid.Parse("ee1e7303-38b6-440b-8c3a-0a4bbc20b6d4"),
-                plate: "15827011a8a04fdbac080b902191c05998cb92d77ec3404989cfc3bf74b4afb1cd342cf3f1684ebf9f6a",
+                id: Guid.Parse("56a97d3e-24b6-4a5e-a4bd-4a75a8c32c4f"),
+                plate: "cd29f5cdfc2640c28592",
                 carModelId: Guid.Parse("dbd9c0c9-b0db-45de-ae1e-9c7e10adb8e0"),
                 fuelId: Guid.Parse("4cf1df83-e073-4c7a-bfbc-2284e4efd7e2"),
                 ownerId: Guid.Parse("9107552d-e084-473e-ba34-f674f8509e9b")

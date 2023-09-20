@@ -25,13 +25,13 @@ namespace Vehman2.Companies
             {
                 // Act
                 var result = await _companyRepository.GetListAsync(
-                    name: "0146d277bb624639b65b8c0719eebdf42640620ebd5f4c63baab5708bec64e0a38cdf47e96f64b70a8510458eba"
+                    name: "cf726c853870419a90e7501f38b0e79aa72aafb0d951477da6e"
                 );
 
                 // Assert
                 result.Count.ShouldBe(1);
                 result.FirstOrDefault().ShouldNotBe(null);
-                result.First().Id.ShouldBe(Guid.Parse("4c1ffebb-1f01-4052-aabe-d2406b44aaf1"));
+                result.First().Id.ShouldBe(Guid.Parse("7f1e47d3-0d94-45e1-8cf7-794286df8526"));
             });
         }
 
@@ -43,7 +43,7 @@ namespace Vehman2.Companies
             {
                 // Act
                 var result = await _companyRepository.GetCountAsync(
-                    name: "61733f4e7b504e8aa608edfc4bde905a5690e265174e48a6b92470944206d52f3"
+                    name: "6f42d4b18c6d49fbabc198f9d12a24bf6a6cb006c7"
                 );
 
                 // Assert
