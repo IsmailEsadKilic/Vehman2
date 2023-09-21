@@ -3,14 +3,20 @@ import { RestService, Rest } from '@abp/ng.core';
 import type { PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 import type { DownloadTokenResultDto, LookupDto, LookupRequestDto } from '../shared/models';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class VehicleService {
   apiName = 'Default';
-  
+  private vehicleAddedSource = new Subject<void>();
+  vehicleAdded$ = this.vehicleAddedSource.asObservable();
 
+  triggerVehicleAdded() {
+    this.vehicleAddedSource.next();
+  }
+  
   create = (input: VehicleCreateDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, VehicleDto>({
       method: 'POST',

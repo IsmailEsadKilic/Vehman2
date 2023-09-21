@@ -14,9 +14,10 @@ import { ExcelImportRoutingModule } from './excel-import-routing.module';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastrModule } from 'ngx-toastr';
+import { VehicleAddComponent } from 'src/app/vehicle-add/vehicle-add.component';
 
 @NgModule({
-  declarations: [ExcelImportComponent],
+  declarations: [ExcelImportComponent, VehicleAddComponent],
   imports: [
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),

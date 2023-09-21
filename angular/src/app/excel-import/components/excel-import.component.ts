@@ -5,7 +5,6 @@ import { TransactionService } from '../../proxy/transactions/transaction.service
 import { Transaction, TransactionCreateDto } from '@proxy/transactions';
 import { ToastrService } from 'ngx-toastr';
 import { VehicleService } from '@proxy/vehicles';
-import { VehicleAddComponent } from 'src/app/vehicle-add/vehicle-add.component';
 
 @Component({
   selector: 'app-excel-import',
@@ -14,8 +13,9 @@ import { VehicleAddComponent } from 'src/app/vehicle-add/vehicle-add.component';
 })
 export class ExcelImportComponent {
   maxDate: Date = new Date();
-  bsConfig = { isAnimated: true, dateInputFormat: 'DD.MM.YYYY'};
+  bsConfig = { isAnimated: true, dateInputFormat: 'YYY.MM.DD', containerClass: 'theme-blue' };
   time: Date = new Date();
+
   transactions: TransactionCreateDto[] = [];
 
   daterow: number = 0;
@@ -38,6 +38,13 @@ export class ExcelImportComponent {
 
   ngOnInit(): void {
     console.log("hi");
+    this.vehicleService.vehicleAdded$.subscribe({
+      next: () => {
+        this.vehicleAdded = true;
+        this.staticModal?.hide();
+        this.vehAdd = false;
+      }
+    })
   }
 
   onFileChange(event: any) {
@@ -95,12 +102,13 @@ export class ExcelImportComponent {
   }
 
   formatDate(date: Date): string {
+      // 2023-09-06T00:00:00
     try {
       const day = String(date.getDate()).padStart(2, '0');
       const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
       const year = String(date.getFullYear());
-    
-      return `${day}.${month}.${year}`;
+      const hour = "00:00:00";
+      return `${year}-${month}-${day}T${hour}`;
     } catch (error) {
       console.log(error);
       this.toastr.error("Tarih formatı hatalı.");
@@ -126,7 +134,6 @@ export class ExcelImportComponent {
     }
     this.vehicleService.getListAll().pipe(take(1)).subscribe({
       next: vehiclesresult => {
-        console.log(vehiclesresult);
         var vehicles = vehiclesresult.items.map(vehicle => {
           return {
             id: vehicle.vehicle.id,
@@ -138,14 +145,15 @@ export class ExcelImportComponent {
         })
         this.transactionService.getListAll().pipe(take(1)).subscribe({
           next: async transactionsDBresult => {
-            console.log(transactionsDBresult);
-            var transactionsDB = transactionsDBresult.items.map(transaction => {
+            var transactionsDB = transactionsDBresult.items.map(tr => {
               return {
-                id: transaction.transaction.id,
-                vehicleId: transaction.vehicle.id,
-                date: transaction.transaction.date,
-                price: transaction.transaction.price,
-                liter: transaction.transaction.liters
+                id: tr.transaction.id,
+                vehicleId: tr.vehicle.id,
+                plate: tr.vehicle.plate,
+                fuel: tr.vehicle.fuelId,
+                date: tr.transaction.date,
+                price: tr.transaction.price,
+                liters: tr.transaction.liters
               }
             })
             //add vehicleId
@@ -229,6 +237,7 @@ export class ExcelImportComponent {
                 if (skip.includes(i)) {
                   continue;
                 }
+                console.log(this.transactions[i]);
                 this.transactionService.create(this.transactions[i]).subscribe({
                   next: () => {
                     console.log("Transaction added.");
@@ -247,17 +256,8 @@ export class ExcelImportComponent {
     })
   }
 
-  addUnknownVehicle(plate: string | undefined): Observable<boolean> {
+  addUnknownVehicle(plate: string): Observable<boolean> {
     // Show the modal dialog
-    if (!plate) {
-      console.log("Plaka bulunamadı.");
-      this.toastr.error("Plaka bulunamadı.");
-      return new Observable<boolean>(observer => {
-        observer.next(false);
-        observer.complete();
-        this.vehAdd = false;
-      });
-    }
     this.vehAdd = true;
     this.unknownVehPlate = plate;
     this.vehicleAdded = false;
@@ -290,6 +290,7 @@ export class ExcelImportComponent {
   confirmModalF(transaction: Transaction): Observable<boolean> {
     this.skipped = false;
     this.skipT = transaction;
+    console.log("skipt: " + this.skipT);
     this.confirmModal.show();
     return new Observable<boolean>(observer => {
       this.confirmModal.onHidden.subscribe(() => {

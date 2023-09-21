@@ -113,6 +113,7 @@ export class VehicleAddComponent implements OnInit {
   addVehicle() {
     this.vehicleService.create(this.vehicleAdd).subscribe({
       next: () => {
+        this.vehicleService.triggerVehicleAdded();
         this.Toastr.success("Araç eklendi.");
         this.vehicleAdd = {} as VehicleCreateDto;
         this.models = [];
