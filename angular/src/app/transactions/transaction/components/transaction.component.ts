@@ -36,9 +36,6 @@ export class TransactionComponent implements OnInit {
 
   isExportToExcelBusy = false;
 
-  isImportModalOpen = false;
-  isImportModalBusy = false;
-
   selected?: TransactionWithNavigationPropertiesDto;
 
   constructor(
@@ -81,20 +78,6 @@ export class TransactionComponent implements OnInit {
   hideForm() {
     this.isModalOpen = false;
     this.form.reset();
-  }
-
-  ImportMode() {
-    this.showImportModal();
-    this.isImportModalBusy = true;
-  }
-
-  hideImportModal() {
-    this.isImportModalOpen = false;
-    this.isImportModalBusy = false;
-  }
-
-  showImportModal() {
-    this.isImportModalOpen = true;
   }
 
   showForm() {

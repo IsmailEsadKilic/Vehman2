@@ -36,5 +36,6 @@ import { VehicleAddComponent } from 'src/app/vehicle-add/vehicle-add.component';
 
     PageModule,
   ],
+  exports: [ExcelImportComponent],
 })
 export class ExcelImportModule {}

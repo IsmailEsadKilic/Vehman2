@@ -4,8 +4,7 @@
       <button
       class="btn btn-primary btn-sm mx-2"
       type="button"
-      [disabled]="isImportModalBusy"
-      (click)="ImportMode()"
+      routerLink="/excel-import"
     >
       {{"Excel'den İçe Aktar"}}
     </button>
@@ -384,24 +383,3 @@
     </abp-button>
   </ng-template>
 </abp-modal>
-
-<abp-modal [busy]="isImportModalBusy" [(visible)]="isImportModalOpen">
-  <ng-template #abpHeader>
-    <h3>
-      {{"Excel'den İçe Aktar"}}
-    </h3>
-  </ng-template>
-
-  <ng-template #abpBody>
-  </ng-template>
-
-  <ng-template #abpFooter>
-    <button (click)="hideImportModal()" type="button" class="btn btn-secondary" abpClose>
-      {{ 'AbpUi::Cancel' | abpLocalization }}
-    </button>
-  </ng-template>
-</abp-modal>
-
-<app-excel-import></app-excel-import>
-
-
