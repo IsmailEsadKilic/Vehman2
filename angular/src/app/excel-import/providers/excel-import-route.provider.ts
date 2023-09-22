@@ -13,7 +13,7 @@ function configureRoutes(routes: RoutesService) {
         iconClass: 'fas fa-upload',
         name: 'Excel Import',
         layout: eLayoutType.application,
-        //requiredPolicy: 'Vehman2.ExcelImport',
+        requiredPolicy: 'Vehman2.ExcelImport',
       },
     ]);
   };

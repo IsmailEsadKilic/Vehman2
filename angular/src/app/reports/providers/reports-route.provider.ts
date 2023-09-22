@@ -13,7 +13,7 @@ function configureRoutes(routes: RoutesService) {
         iconClass: 'fas fa-file',
         name: 'Raporlar',
         layout: eLayoutType.application,
-        //requiredPolicy: 'Vehman2.Reports',
+        requiredPolicy: 'Vehman2.Reports',
       },
     ]);
   };
