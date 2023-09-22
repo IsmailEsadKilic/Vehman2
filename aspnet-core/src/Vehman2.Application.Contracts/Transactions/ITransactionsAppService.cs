@@ -11,12 +11,14 @@ namespace Vehman2.Transactions
     public interface ITransactionsAppService : IApplicationService
     {
         Task<PagedResultDto<TransactionWithNavigationPropertiesDto>> GetListAsync(GetTransactionsInput input);
-
+        Task<PagedResultDto<ReportWithNavigationPropertiesDto>> GetReportListAsync(GetReportsInput input);
         Task<TransactionWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id);
 
         Task<TransactionDto> GetAsync(Guid id);
 
         Task<PagedResultDto<LookupDto<Guid>>> GetVehicleLookupAsync(LookupRequestDto input);
+
+        Task<PagedResultDto<LookupDto<Guid>>> GetCompanyNameLookupAsync(LookupRequestDto input);
 
         Task DeleteAsync(Guid id);
 
@@ -25,6 +27,8 @@ namespace Vehman2.Transactions
         Task<TransactionDto> UpdateAsync(Guid id, TransactionUpdateDto input);
 
         Task<IRemoteStreamContent> GetListAsExcelFileAsync(TransactionExcelDownloadDto input);
+
+        Task<IRemoteStreamContent> GetReportListAsExcelFileAsync(ReportExcelDownloadDto input);
 
         Task<DownloadTokenResultDto> GetDownloadTokenAsync();
     }

@@ -1,4 +1,4 @@
-import type { GetTransactionsInput, TransactionCreateDto, TransactionDto, TransactionExcelDownloadDto, TransactionUpdateDto, TransactionWithNavigationPropertiesDto } from './models';
+import type { GetReportsInput, GetTransactionsInput, ReportWithNavigationPropertiesDto, TransactionCreateDto, TransactionDto, TransactionExcelDownloadDto, TransactionUpdateDto, TransactionWithNavigationPropertiesDto } from './models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -48,9 +48,26 @@ export class TransactionService {
     this.restService.request<any, PagedResultDto<TransactionWithNavigationPropertiesDto>>({
       method: 'GET',
       url: '/api/app/transactions',
-      params: { filterText: input.filterText, priceMin: input.priceMin, priceMax: input.priceMax, litersMin: input.litersMin, litersMax: input.litersMax, dateMin: input.dateMin, dateMax: input.dateMax, vehicleId: input.vehicleId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { filterText: input.filterText, priceMin: input.priceMin, priceMax: input.priceMax, litersMin: input.litersMin, litersMax: input.litersMax, dateMin: input.dateMin, dateMax: input.dateMax, vehicleId: input.vehicleId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount, companyName: input.companyName},
     },
     { apiName: this.apiName,...config });
+
+  logReps() {
+    console.log("logReps");
+    var result: any
+    this.getReports({filterText: "", priceMin: 0, priceMax: 0, litersMin: 0, litersMax: 0, dateMin: "", dateMax: "", vehicleId: "", sorting: "", skipCount: 0, maxResultCount: 1000, companyName: ""}).subscribe((res) => {
+      result = res;
+      console.log(result);
+    });
+  }
+
+  getReports = (input: GetReportsInput, config?: Partial<Rest.Config>) =>
+  this.restService.request<any, PagedResultDto<ReportWithNavigationPropertiesDto>>({
+    method: 'GET',
+    url: '/api/app/transactions/reports',
+    params: { filterText: input.filterText, priceMin: input.priceMin, priceMax: input.priceMax, litersMin: input.litersMin, litersMax: input.litersMax, dateMin: input.dateMin, dateMax: input.dateMax, vehicleId: input.vehicleId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount, companyName: input.companyName},
+  },
+  { apiName: this.apiName,...config });
 
   getListAll() {
     let input: GetTransactionsInput = { maxResultCount: 1000 };
@@ -65,6 +82,15 @@ export class TransactionService {
       params: { downloadToken: input.downloadToken, filterText: input.filterText, name: input.name },
     },
     { apiName: this.apiName,...config });
+
+  getReportsAsExcelFile = (input: TransactionExcelDownloadDto, config?: Partial<Rest.Config>) =>
+  this.restService.request<any, Blob>({
+    method: 'GET',
+    responseType: 'blob',
+    url: '/api/app/transactions/reports/as-excel-file',
+    params: { downloadToken: input.downloadToken, filterText: input.filterText, name: input.name },
+  },
+  { apiName: this.apiName,...config });
   
 
   getVehicleLookup = (input: LookupRequestDto, config?: Partial<Rest.Config>) =>
@@ -74,7 +100,14 @@ export class TransactionService {
       params: { filter: input.filter, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName,...config });
-  
+
+  getCompanyNameLookup = (input: LookupRequestDto, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, PagedResultDto<LookupDto<string>>>({
+      method: 'GET',
+      url: '/api/app/transactions/company-name-lookup',
+      params: { filter: input.filter, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName,...config });
 
   getWithNavigationProperties = (id: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, TransactionWithNavigationPropertiesDto>({

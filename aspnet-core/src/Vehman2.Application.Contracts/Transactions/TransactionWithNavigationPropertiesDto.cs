@@ -13,4 +13,12 @@ namespace Vehman2.Transactions
         public VehicleDto Vehicle { get; set; }
 
     }
+
+    public class ReportWithNavigationPropertiesDto
+    {
+        public ReportDto Report { get; set; }
+
+        public VehicleDto Vehicle { get; set; }
+
+    }
 }

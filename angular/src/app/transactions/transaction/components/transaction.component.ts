@@ -5,6 +5,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { filter, finalize, switchMap, tap } from 'rxjs/operators';
+
 import type {
   GetTransactionsInput,
   TransactionWithNavigationPropertiesDto,
@@ -34,6 +35,9 @@ export class TransactionComponent implements OnInit {
   isModalOpen = false;
 
   isExportToExcelBusy = false;
+
+  isImportModalOpen = false;
+  isImportModalBusy = false;
 
   selected?: TransactionWithNavigationPropertiesDto;
 
@@ -77,6 +81,20 @@ export class TransactionComponent implements OnInit {
   hideForm() {
     this.isModalOpen = false;
     this.form.reset();
+  }
+
+  ImportMode() {
+    this.showImportModal();
+    this.isImportModalBusy = true;
+  }
+
+  hideImportModal() {
+    this.isImportModalOpen = false;
+    this.isImportModalBusy = false;
+  }
+
+  showImportModal() {
+    this.isImportModalOpen = true;
   }
 
   showForm() {

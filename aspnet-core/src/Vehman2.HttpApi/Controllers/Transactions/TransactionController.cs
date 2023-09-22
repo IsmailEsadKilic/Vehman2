@@ -32,6 +32,40 @@ namespace Vehman2.Controllers.Transactions
         }
 
         [HttpGet]
+        [Route("reports")]
+        public Task<PagedResultDto<ReportWithNavigationPropertiesDto>> GetReportListAsync(GetReportsInput input)
+        {
+            var result = _transactionsAppService.GetReportListAsync(input);
+
+            //log
+            Console.WriteLine("GetReportListAsync--------------------------------------------------");
+            Console.WriteLine(result.Result.TotalCount);
+            Console.WriteLine(result.Result.Items.Count);
+            for (int i = 0; i < result.Result.Items.Count; i++)
+            {
+                Console.WriteLine("==================================================");
+                Console.WriteLine(result.Result.Items[i].Report.Id);
+                Console.WriteLine(result.Result.Items[i].Report.CompanyName);
+                Console.WriteLine(result.Result.Items[i].Report.TotalPrice);
+                Console.WriteLine(result.Result.Items[i].Report.TotalLiters);
+                Console.WriteLine(result.Result.Items[i].Report.TotalTransactions);
+                Console.WriteLine(result.Result.Items[i].Report.AveragePrice);
+                Console.WriteLine(result.Result.Items[i].Report.AverageLiters);
+                Console.WriteLine(result.Result.Items[i].Report.AveragePricePerLiter);
+                Console.WriteLine(result.Result.Items[i].Report.AverageLitersPerTransaction);
+                Console.WriteLine(result.Result.Items[i].Report.AveragePricePerTransaction);
+                Console.WriteLine(result.Result.Items[i].Report.AverageLitersPerPrice);
+                Console.WriteLine(result.Result.Items[i].Vehicle.Id);
+                Console.WriteLine(result.Result.Items[i].Vehicle.Plate);
+                Console.WriteLine("==================================================");
+
+            }
+            Console.WriteLine("GetReportListAsync--------------------------------------------------");
+
+            return result;
+        }
+
+        [HttpGet]
         [Route("with-navigation-properties/{id}")]
         public Task<TransactionWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id)
         {
@@ -50,6 +84,20 @@ namespace Vehman2.Controllers.Transactions
         public Task<PagedResultDto<LookupDto<Guid>>> GetVehicleLookupAsync(LookupRequestDto input)
         {
             return _transactionsAppService.GetVehicleLookupAsync(input);
+        }
+
+        [HttpGet]
+        [Route("vehicle-lookup-alt")]
+        public Task<PagedResultDto<LookupDto<Guid>>> GetVehicleLookupAsyncAlt(LookupRequestDto input)
+        {
+            return _transactionsAppService.GetVehicleLookupAsync(input);
+        }
+
+        [HttpGet]
+        [Route("company-name-lookup")]
+        public Task<PagedResultDto<LookupDto<Guid>>> GetCompanyNameLookupAsync(LookupRequestDto input)
+        {
+            return _transactionsAppService.GetCompanyNameLookupAsync(input);
         }
 
         [HttpPost]
@@ -77,6 +125,13 @@ namespace Vehman2.Controllers.Transactions
         public virtual Task<IRemoteStreamContent> GetListAsExcelFileAsync(TransactionExcelDownloadDto input)
         {
             return _transactionsAppService.GetListAsExcelFileAsync(input);
+        }
+
+        [HttpGet]
+        [Route("reports/as-excel-file")]
+        public virtual Task<IRemoteStreamContent> GetReportListAsExcelFileAsync(ReportExcelDownloadDto input)
+        {
+            return _transactionsAppService.GetReportListAsExcelFileAsync(input);
         }
 
         [HttpGet]

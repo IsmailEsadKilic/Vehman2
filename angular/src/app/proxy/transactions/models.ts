@@ -10,6 +10,19 @@ export interface GetTransactionsInput extends PagedAndSortedResultRequestDto {
   dateMin?: string;
   dateMax?: string;
   vehicleId?: string;
+  companyName?: string;
+}
+
+export interface GetReportsInput extends PagedAndSortedResultRequestDto {
+  filterText?: string;
+  priceMin?: number;
+  priceMax?: number;
+  litersMin?: number;
+  litersMax?: number;
+  dateMin?: string;
+  dateMax?: string;
+  vehicleId?: string;
+  companyName?: string;
 }
 
 export interface TransactionCreateDto {
@@ -38,7 +51,28 @@ export interface TransactionDto extends FullAuditedEntityDto<string> {
   concurrencyStamp?: string;
 }
 
+export interface ReportDto extends FullAuditedEntityDto<string> {
+  totalPrice: number;
+  totalLiters?: number;
+  vehicleId: string;
+  companyName?: string;
+  concurrencyStamp?: string;
+  totalTransactions: number;
+  averagePrice: number;
+  averageLiters: number;
+  averagePricePerLiter: number;
+  averageLitersPerTransaction: number;
+  averagePricePerTransaction: number;
+  averageLitersPerPrice: number;
+}
+
 export interface TransactionExcelDownloadDto {
+  downloadToken?: string;
+  filterText?: string;
+  name?: string;
+}
+
+export interface ReportExcelDOwnloadDto {
   downloadToken?: string;
   filterText?: string;
   name?: string;
@@ -56,3 +90,9 @@ export interface TransactionWithNavigationPropertiesDto {
   transaction: TransactionDto;
   vehicle: VehicleDto;
 }
+
+export interface ReportWithNavigationPropertiesDto {
+  report: ReportDto;
+  vehicle: VehicleDto;
+}
+

@@ -14,8 +14,23 @@ namespace Vehman2.Transactions
         public DateTime? DateMin { get; set; }
         public DateTime? DateMax { get; set; }
         public Guid? VehicleId { get; set; }
+        public string? CompanyName { get; set; }
 
         public GetTransactionsInput()
+        {
+
+        }
+    }
+
+    public class GetReportsInput : PagedAndSortedResultRequestDto
+    {
+        public string? FilterText { get; set; }
+        public DateTime? DateMin { get; set; }
+        public DateTime? DateMax { get; set; }
+        public Guid? VehicleId { get; set; }
+        public string? CompanyName { get; set; }
+
+        public GetReportsInput()
         {
 
         }

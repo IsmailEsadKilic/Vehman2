@@ -1,1 +1,280 @@
-<p>reports works!</p>
+<abp-page [title]="'::Transactions' | abpLocalization">
+    <abp-page-toolbar-container class="col">
+      <div class="text-lg-end pt-2">
+        <button
+          class="btn btn-primary btn-sm mx-2"
+          type="button"
+          [disabled]="isExportToExcelBusy"
+          (click)="exportToExcel()"
+        >
+          {{ '::ExportToExcel' | abpLocalization }}
+        </button>
+      </div>
+    </abp-page-toolbar-container>
+  
+    <abp-advanced-entity-filters localizationSourceName="" [list]="list">
+      <abp-advanced-entity-filters-form>
+        <form #filterForm (keyup.enter)="list.get()">
+          <div class="row">
+            <div class="col-12 col-sm-auto">
+              <div class="mb-3">
+                <label class="form-label" for="minPrice">
+                  {{ '::MinPrice' | abpLocalization }}
+                </label>
+  
+                <input
+                  id="minPrice"
+                  type="number"
+                  class="form-control"
+                  [(ngModel)]="filters.priceMin"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+            </div>
+  
+            <div class="col-12 col-sm-auto">
+              <div class="mb-3">
+                <label class="form-label" for="maxPrice">
+                  {{ '::MaxPrice' | abpLocalization }}
+                </label>
+  
+                <input
+                  id="maxPrice"
+                  type="number"
+                  class="form-control"
+                  [(ngModel)]="filters.priceMax"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+            </div>
+            <div class="col-12 col-sm-auto">
+              <div class="mb-3">
+                <label class="form-label" for="minLiters">
+                  {{ '::MinLiters' | abpLocalization }}
+                </label>
+  
+                <input
+                  id="minLiters"
+                  type="number"
+                  class="form-control"
+                  [(ngModel)]="filters.litersMin"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+            </div>
+  
+            <div class="col-12 col-sm-auto">
+              <div class="mb-3">
+                <label class="form-label" for="maxLiters">
+                  {{ '::MaxLiters' | abpLocalization }}
+                </label>
+  
+                <input
+                  id="maxLiters"
+                  type="number"
+                  class="form-control"
+                  [(ngModel)]="filters.litersMax"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+            </div>
+            <div class="col-12 col-sm-auto">
+              <div class="mb-3">
+                <label class="form-label" for="minDate">
+                  {{ '::MinDate' | abpLocalization }}
+                </label>
+  
+                <div class="input-group" validationTarget>
+                  <input
+                    id="minDate"
+                    class="form-control"
+                    #minDateInput
+                    #minDateDatepicker="ngbDatepicker"
+                    name="minDate"
+                    ngbDatepicker
+                    container="body"
+                    readonly
+                    (click)="minDateDatepicker.toggle()"
+                    (keyup.space)="minDateDatepicker.toggle()"
+                    [(ngModel)]="filters.dateMin"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                  <div *ngIf="minDateInput.value" class="input-group-append">
+                    <button
+                      class="btn btn-link px-2"
+                      type="button"
+                      [title]="'AbpUi::Clear' | abpLocalization"
+                      (click)="
+                        minDateDatepicker.writeValue(null);
+                        minDateDatepicker.manualDateChange(null, true)
+                      "
+                    >
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <div class="col-12 col-sm-auto">
+              <div class="mb-3">
+                <label class="form-label" for="maxDate">
+                  {{ '::MaxDate' | abpLocalization }}
+                </label>
+  
+                <div class="input-group" validationTarget>
+                  <input
+                    id="maxDate"
+                    class="form-control"
+                    #maxDateInput
+                    #maxDateDatepicker="ngbDatepicker"
+                    name="maxDate"
+                    ngbDatepicker
+                    readonly
+                    (click)="maxDateDatepicker.toggle()"
+                    (keyup.space)="maxDateDatepicker.toggle()"
+                    [(ngModel)]="filters.dateMax"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                  <div *ngIf="maxDateInput.value" class="input-group-append">
+                    <button
+                      class="btn btn-link px-2"
+                      type="button"
+                      [title]="'AbpUi::Clear' | abpLocalization"
+                      (click)="
+                        maxDateDatepicker.writeValue(null);
+                        maxDateDatepicker.manualDateChange(null, true)
+                      "
+                    >
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-auto">
+              <div class="mb-3">
+                <label class="form-label" for="vehicleIdFilter">
+                  {{ '::Vehicle' | abpLocalization }}
+                </label>
+                <abp-lookup-select
+                  cid="vehicleIdFilter"
+                  [getFn]="service.getVehicleLookup"
+                  [(ngModel)]="filters.vehicleId"
+                  [ngModelOptions]="{ standalone: true }"
+                ></abp-lookup-select>
+              </div>
+            </div>
+  
+            <div class="col-12 col-sm-auto">
+              <div class="mb-3">
+                <label class="form-label" for="companyNameFilter">
+                  <!-- {{ '::Company Name' | abpLocalization }} -->
+                  Şirket Adı
+                </label>
+                <abp-lookup-select
+                  cid="companyNameFilter"
+                  [getFn]="service.getCompanyNameLookup"
+                  [(ngModel)]="filters.companyName"
+                  [ngModelOptions]="{ standalone: true }"
+                ></abp-lookup-select>
+              </div>
+            </div>
+  
+            <div class="col-12 col-sm-auto align-self-end mb-3">
+              <div class="row">
+                <div class="col-6 col-sm-auto d-grid">
+                  <button type="button" class="btn btn-outline-primary" (click)="clearFilters()">
+                    <span>{{ 'AbpUi::Clear' | abpLocalization }}</span>
+                  </button>
+                </div>
+                <div class="col-6 col-sm-auto d-grid">
+                  <button type="button" class="btn btn-primary" (click)="list.get()">
+                    <span>{{ 'AbpUi::Refresh' | abpLocalization }}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </abp-advanced-entity-filters-form>
+    </abp-advanced-entity-filters>
+  
+    <div class="card">
+      <div class="card-body">
+        <ngx-datatable [rows]="data.items" [count]="data.totalCount" [list]="list" default>
+
+          <ngx-datatable-column name="{{'PLAKA'}}" prop="vehicle.plate">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.vehicle.plate }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="{{'ŞİRKET'}}" prop="report.price">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.report.companyName }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="{{'TOPLAM FIYAT'}}" prop="report.totalPrice">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.report.totalPrice }} TL
+            </ng-template>
+          </ngx-datatable-column>
+            <ngx-datatable-column name="{{'TOPLAM LITRE'}}" prop="report.totalLiters">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.report.totalLiters }} LT
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{'TOPLAM İŞLEM'}}" prop="report.totalTransactions">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.report.totalTransactions }}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{'ORTALAMA FIYAT'}}" prop="report.averagePrice">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.report.averagePrice }} TL
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{'ORTALAMA LITRE'}}" prop="report.averageLiters">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.report.averageLiters }} LT
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{'ORTALAMA FIYAT/LİTRE'}}" prop="report.averagePricePerLiter">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.report.averagePricePerLiter }} TL
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{'ORTALAMA LİTRE/İŞLEM'}}" prop="report.averageLitersPerTransaction">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.report.averageLitersPerTransaction }} LT
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{'ORTALAMA FIYAT/İŞLEM'}}" prop="report.averagePricePerTransaction">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.report.averagePricePerTransaction }} TL
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{'ORTALAMA LİTRE/FİYAT'}}" prop="report.averageLitersPerPrice">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.report.averageLitersPerPrice }} LT
+                </ng-template>
+            </ngx-datatable-column>
+                
+          totalPrice: number;
+          totalLiters?: number;
+          vehicleId: string;
+          companyName?: string;
+          concurrencyStamp?: string;
+          totalTransactions: number;
+          averagePrice: number;
+          averageLiters: number;
+          averagePricePerLiter: number;
+          averageLitersPerTransaction: number;
+          averagePricePerTransaction: number;
+          averageLitersPerPrice: number;
+        </ngx-datatable>
+      </div>
+    </div>
+  </abp-page>
+
+  

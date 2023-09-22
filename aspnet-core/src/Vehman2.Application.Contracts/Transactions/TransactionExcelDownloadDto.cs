@@ -16,8 +16,26 @@ namespace Vehman2.Transactions
         public DateTime? DateMin { get; set; }
         public DateTime? DateMax { get; set; }
         public Guid? VehicleId { get; set; }
+        public string? CompanyName { get; set; }
 
         public TransactionExcelDownloadDto()
+        {
+
+        }
+    }
+
+    public class ReportExcelDownloadDto
+    {
+        public string DownloadToken { get; set; }
+
+        public string? FilterText { get; set; }
+        public DateTime? DateMin { get; set; }
+        public DateTime? DateMax { get; set; }
+        public Guid? VehicleId { get; set; }
+        public string? CompanyName { get; set; }
+        public string? Sorting { get; set; }
+
+        public ReportExcelDownloadDto()
         {
 
         }
